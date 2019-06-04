@@ -33,3 +33,6 @@ font-size: 15px;
     border: none;
     color: white;
 }
+.circle:hover{
+  border-radius:50%;
+}

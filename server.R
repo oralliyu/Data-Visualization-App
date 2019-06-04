@@ -30,10 +30,189 @@ shinyServer(function(input, output, session) {
     )
   })
   observeEvent(input$go2, {
-    updateTabItems(session, 'tabs', 'exp4')
+    updateTabItems(session, 'tabs', 'VisualOne')
   })
   
   ############ Data Visualization ############
+  ###########One Single Variable Plot##############
+  output$onescatter<-
+    renderPlot({
+      if (input$dataset == 'cars'){
+        if (input$carsVariable == 'speed'){
+          plot(density(cars$speed), main = "Density Plot", xlab = input$carsVariable)
+        }
+        else if(input$carsVariable == 'dist'){
+          plot(density(cars$dist), main = "Density Plot", xlab = input$carsVariable)
+        }
+      }
+      else if (input$dataset == 'trees'){
+        if (input$treesVariable == 'Girth'){
+          plot(density(trees$Girth), main = "Density Plot", xlab = input$carsVariable)
+        }
+        else if(input$treesVariable == 'Height'){
+          plot(density(trees$Height), main = "Density Plot", xlab = input$carsVariable)
+        }
+        else if(input$treesVariable == 'Volume'){
+          plot(density(trees$Volume), main = "Density Plot", xlab = input$carsVariable)
+        }
+      }
+    })
+  
+  output$onehist<-renderPlot({
+    if (input$dataset == 'cars'){
+      if (input$carsVariable == 'speed'){
+        hist(cars$speed, main = "Histogram", xlab = input$carsVariable)
+      }
+      else if(input$carsVariable == 'dist'){
+        hist(cars$dist, main = "Histogram", xlab = input$carsVariable)
+      }
+    }
+    else if (input$dataset == 'trees'){
+      if (input$treesVariable == 'Girth'){
+        hist(trees$Girth, main = "Histogram", xlab = input$carsVariable)
+      }
+      else if(input$treesVariable == 'Height'){
+        hist(trees$Height, main = "Histogram", xlab = input$carsVariable)
+      }
+      else if(input$treesVariable == 'Volume'){
+        hist(trees$Volume, main = "Histogram", xlab = input$carsVariable)
+      }
+    }
+  })
+  
+  output$onebar<-
+    renderPlot({
+      if (input$dataset == 'cars'){
+        if (input$carsVariable == 'speed'){
+          barplot(cars$speed, main = "Bar Plot", xlab = input$carsVariable)
+        }
+        else if(input$carsVariable == 'dist'){
+          barplot(cars$dist, main = "Bar Plot", xlab = input$carsVariable)
+        }
+      }
+      else if (input$dataset == 'trees'){
+        if (input$treesVariable == 'Girth'){
+          barplot(trees$Girth, main = "Bar Plot", xlab = input$carsVariable)
+        }
+        else if(input$treesVariable == 'Height'){
+          barplot(trees$Height, main = "Bar Plot", xlab = input$carsVariable)
+        }
+        else if(input$treesVariable == 'Volume'){
+          barplot(trees$Volume, main = "Bar Plot", xlab = input$carsVariable)
+        }
+      }
+    })
+  
+  output$oneqq<-
+    renderPlot({
+      if (input$dataset == 'cars'){
+        if (input$carsVariable == 'speed'){
+          qqnorm(cars$speed)
+          qqline(cars$speed, col='red')
+        }
+        else if(input$carsVariable == 'dist'){
+          qqnorm(cars$dist)
+          qqline(cars$dist, col='red')
+        }
+      }
+      else if (input$dataset == 'trees'){
+        if (input$treesVariable == 'Girth'){
+          qqnorm(trees$Girth)
+          qqline(trees$Girth, col='red')
+        }
+        else if(input$treesVariable == 'Height'){
+          qqnorm(trees$Height)
+          qqline(trees$Height, col='red')
+        }
+        else if(input$treesVariable == 'Volume'){
+          qqnorm(trees$Volume)
+          qqline(trees$Volume, col='red')
+        }
+      }
+    })
+  
+  output$DensityoneCode <- renderUI({
+    if (input$dataset == 'cars'){
+      tags$code('plot(density(', input$dataset, '$', input$carsVariable, '))')
+    }
+    else{
+      tags$code('plot(density(', input$dataset, '$', input$treesVariable, ')')
+    }
+  })
+  
+  output$HistogramoneCode <- renderUI({
+    if (input$dataset == 'cars'){
+      tags$code('hist(', input$dataset, '$', input$carsVariable, ')')
+    }
+    else{
+      tags$code('hist(', input$dataset, '$', input$treesVariable, ')')
+    }
+  })
+  
+  output$BarCode <- renderUI({
+    if (input$dataset == 'cars'){
+      tags$code('barplot(', input$dataset, '$', input$carsVariable, ')')
+    }
+    else{
+      tags$code('barplot(', input$dataset, '$', input$treesVariable, ')')
+    }
+  })
+  
+  output$qqCode <- renderText({
+    if (input$dataset == 'cars'){
+      paste0('qqnorm(', input$dataset, '$', input$carsVariable, ')',
+             '\n qqline(', input$dataset, '$', input$carsVariable, ')', seq='')
+    }
+    else{
+      paste0('qqnorm(', input$dataset, '$', input$treesVariable, ')',
+             'qqline(', input$dataset, '$', input$treesVariable, ')', seq='')
+    }
+  })
+  ###########Two Variables########
+  output$twoscatter<-renderPlot({
+    if(input$continuous1=='Sepal.Length'){
+      if(input$continuous2=='Petal.Length'){
+        ggplot(aes(Sepal.Length, Petal.Length), data=iris)+
+          geom_point(aes(colour = factor(Species)))
+      }
+      else if(input$continuous2=='Petal.Width'){
+        ggplot(aes(Sepal.Length, Petal.Width), data=iris)+
+          geom_point(aes(colour = factor(Species)))
+      }
+    }
+    else if(input$continuous1=='Sepal.Width'){
+      if(input$continuous2=='Petal.Length'){
+        ggplot(aes(Sepal.Width, Petal.Length), data=iris)+
+          geom_point(aes(colour = factor(Species)))
+      }
+      else if(input$continuous2=='Petal.Width'){
+        ggplot(aes(Sepal.Width, Petal.Width), data=iris)+
+          geom_point(aes(colour = factor(Species)))
+      }
+    }
+  })
+  
+  
+  output$sunflower<-renderPlot({
+    if(input$continuous1=='Sepal.Length'){
+      if(input$continuous2=='Petal.Length'){
+        sunflowerplot(Sepal.Length~Petal.Length, data=iris)
+      }
+      else if(input$continuous2=='Petal.Width'){
+        sunflowerplot(Sepal.Length~Petal.Width, data=iris)
+      }
+    }
+    else if(input$continuous1=='Sepal.Width'){
+      if(input$continuous2=='Petal.Length'){
+        sunflowerplot(Sepal.Width~Petal.Length, data=iris)
+      }
+      else if(input$continuous2=='Petal.Width'){
+        sunflowerplot(Sepal.Width~Petal.Width, data=iris)
+      }
+    }
+  })
+  
+  
   
   ###### Maps ######
   #a. usMap
