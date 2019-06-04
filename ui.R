@@ -11,6 +11,7 @@ library(ggplot2)
 library(EDAWR)
 library(plot3D)
 library(ggmap)
+library(datasets)
 
 
 header = dashboardHeader(title = 'Data Visualization',
@@ -22,11 +23,8 @@ header = dashboardHeader(title = 'Data Visualization',
 
 sidebar = dashboardSidebar(
   sidebarMenu(id = 'tabs',
-              #menuItem('Overview', tabName = 'overview', icon = icon("dashboard")),
+              menuItem('Overview', tabName = 'overview', icon = icon("dashboard")),
               menuItem('Data Visualization', tabName = 'exp4', icon = icon('wpexplorer'))
-              #menuItem('Reshaping Data', tabName = 'exp1', icon = icon('wpexplorer')),
-              #menuItem('Combining Data Sets', tabName = 'exp2', icon = icon('gamepad'))
-              #menuItem('Creating Your Own Graph', tabName = 'exp3', icon = icon('refresh'))
   )
 )
 
@@ -40,6 +38,31 @@ body = dashboardBody(
   useShinyjs(),
   
   tabItems(
+    tabItem(tabName = 'overview',
+            tags$a(href='http://stat.psu.edu/', tags$img(src = 'psu_icon.jpg', align = "left", width = 180)),
+            br(),
+            br(),
+            br(),
+            h3(strong('About:')),
+            h4('This app illustrates R code for data visulization'),
+            br(),
+            
+            h3(strong('Instructions:')),
+            h4(tags$li('In the Data Visualization section, 
+                       go through each tab including 3D plots, line plots, contour plots, and heat maps.'))
+            ,
+            br(),
+            div(style = 'text-align: center', bsButton(inputId = 'go2', label = 'Explore', icon = icon('bolt'), size = 'large')),
+            br(),
+            h3(strong('Acknowledgements:')),
+            h4('This application was coded and developed by Anna (Yinqi) Zhang. Special Thanks to Grace (Yubaihe) Zhou for being incredibly helpful with programming issues.'),
+            h4('The cheat sheet is provided by RStudio.'),
+            h4('Packages used: dplyr, EDAWR, ggmap, mosaic, plotly, ggplot2, plot3D.'),
+            h4('The Protein-Protein Interaction Dataset is from the Warwick University - Molecular Organisation and Assembly in Cells.')
+    ),
+    
+    
+    ######Advanced
     tabItem(tabName = 'exp4',
             #div(style="display: inline-block;vertical-align:top;",
             #    tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19))
@@ -84,8 +107,8 @@ body = dashboardBody(
                                                       tags$strong('R code: '),
                                                       uiOutput('usMapOut2'),
                                                       br(),
-                                                      plotOutput('usMapOut1')
-                                     ),
+                                                      div(style = "height: 500px; width: 700px",plotOutput('usMapOut1')
+                                                      )),
                                      
                                      conditionalPanel('input.mapsOp == "US Map - plotly"',
                                                       tags$strong('R code: '),
