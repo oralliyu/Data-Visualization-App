@@ -120,8 +120,8 @@ body = dashboardBody(
                                        column(width = 6, uiOutput(outputId="HistogramoneCode"))
                                      ),
                                      fluidRow(
-                                       column(6,plotOutput(outputId="onescatter", width="300px",height="300px")),  
-                                       column(6,plotOutput(outputId="onehist", width="300px",height="300px"))
+                                       column(6,plotOutput(outputId="onescatter", width="100%",height="300px")),  
+                                       column(6,plotOutput(outputId="onehist", width="100%",height="300px"))
                                      ),
                                      br(),
                                      br(),
@@ -135,8 +135,8 @@ body = dashboardBody(
                                        column(width = 6, textOutput(outputId="qqCode"))
                                      ),
                                      fluidRow(
-                                       column(6,plotOutput(outputId="onebar", width="300px",height="300px")),  
-                                       column(6,plotOutput(outputId="oneqq", width="300px",height="300px"))
+                                       column(6,plotOutput(outputId="onebar", width="100%",height="300px")),  
+                                       column(6,plotOutput(outputId="oneqq", width="100%",height="300px"))
                                      )
                                    )
                                  )
@@ -169,13 +169,18 @@ body = dashboardBody(
                                                  label="Select Categorical Variable:",
                                                  choices= 'Species',
                                                  selected = 'Species')
+                                     
                                    ),
                                    
                                    
                                    mainPanel(
                                      fluidRow(
                                        column(6,plotOutput(outputId="twoscatter")),
-                                       column(6,plotOutput(outputId="sunflower"))
+                                       column(6,plotOutput(outputId="logTransformation"))
+                                     ),
+                                     fluidRow(
+                                       column(6,plotOutput(outputId="twobar")),
+                                       column(6,plotOutput(outputId="twobox"))
                                      )
                                    )
                                  )

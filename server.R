@@ -11,6 +11,7 @@ library(plot3D)
 library(plotly)
 library(ggplot2)
 library(ggmap)
+library(datasets)
 
 shinyServer(function(input, output, session) {
   observeEvent(input$info0,{
@@ -173,45 +174,124 @@ shinyServer(function(input, output, session) {
     if(input$continuous1=='Sepal.Length'){
       if(input$continuous2=='Petal.Length'){
         ggplot(aes(Sepal.Length, Petal.Length), data=iris)+
-          geom_point(aes(colour = factor(Species)))
+          geom_point(aes(colour = factor(Species)))+
+          geom_smooth(aes(colour = factor(Species)), linetype='twodash', size=0.8)+
+          ggtitle("Scatter Plot")
       }
       else if(input$continuous2=='Petal.Width'){
         ggplot(aes(Sepal.Length, Petal.Width), data=iris)+
-          geom_point(aes(colour = factor(Species)))
+          geom_point(aes(colour = factor(Species)))+
+          geom_smooth(aes(colour = factor(Species)), linetype='twodash', size=0.8)+
+          ggtitle("Scatter Plot")
       }
     }
     else if(input$continuous1=='Sepal.Width'){
       if(input$continuous2=='Petal.Length'){
         ggplot(aes(Sepal.Width, Petal.Length), data=iris)+
-          geom_point(aes(colour = factor(Species)))
+          geom_point(aes(colour = factor(Species)))+
+          geom_smooth(aes(colour = factor(Species)), linetype='twodash', size=0.8)+
+          ggtitle("Scatter Plot")
       }
       else if(input$continuous2=='Petal.Width'){
         ggplot(aes(Sepal.Width, Petal.Width), data=iris)+
-          geom_point(aes(colour = factor(Species)))
+          geom_point(aes(colour = factor(Species)))+
+          geom_smooth(aes(colour = factor(Species)), linetype='twodash', size=0.8)+
+          ggtitle("Scatter Plot")
       }
     }
   })
   
   
-  output$sunflower<-renderPlot({
+  output$logTransformation<-renderPlot({
     if(input$continuous1=='Sepal.Length'){
       if(input$continuous2=='Petal.Length'){
-        sunflowerplot(Sepal.Length~Petal.Length, data=iris)
+        ggplot(aes(Sepal.Width, Petal.Width), data=iris)+
+          geom_point(aes(colour = factor(Species)))+
+          coord_trans(x="log2", y="log2")+
+          ggtitle("Log Transformation")
+        #sunflowerplot(Sepal.Length~Petal.Length, data=iris, main="SunflowerPlot")
       }
       else if(input$continuous2=='Petal.Width'){
-        sunflowerplot(Sepal.Length~Petal.Width, data=iris)
+        ggplot(aes(Sepal.Length, Petal.Width), data=iris)+
+          geom_point(aes(colour = factor(Species)))+
+          coord_trans(x="log2", y="log2")+
+          ggtitle("Log Transformation")
+        #sunflowerplot(Sepal.Length~Petal.Width, data=iris, main="SunflowerPlot")
       }
     }
     else if(input$continuous1=='Sepal.Width'){
       if(input$continuous2=='Petal.Length'){
-        sunflowerplot(Sepal.Width~Petal.Length, data=iris)
+        ggplot(aes(Sepal.Width, Petal.Length), data=iris)+
+          geom_point(aes(colour = factor(Species)))+
+          coord_trans(x="log2", y="log2")+
+          ggtitle("Log Transformation")
       }
       else if(input$continuous2=='Petal.Width'){
-        sunflowerplot(Sepal.Width~Petal.Width, data=iris)
+        ggplot(aes(Sepal.Width, Petal.Width), data=iris)+
+          geom_point(aes(colour = factor(Species)))+
+          coord_trans(x="log2", y="log2")+
+          ggtitle("Log Transformation")
+        #sunflowerplot(Sepal.Width~Petal.Width, data=iris, main="SunflowerPlot")
       }
     }
   })
   
+  output$twobar<-renderPlot({
+    if(input$continuous1=='Sepal.Length'){
+      if(input$continuous2=='Petal.Length'){
+        ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Length, fill=factor(Species)))+
+          geom_bar(stat="identity")+
+          ggtitle('Bar Plot')
+      }
+      else if(input$continuous2=='Petal.Width'){
+        ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Width, fill=factor(Species)))+
+          geom_bar(stat="identity")+
+          ggtitle('Bar Plot')
+      }
+    }
+    else if(input$continuous1=='Sepal.Width'){
+      if(input$continuous2=='Petal.Length'){
+        ggplot(data=iris, aes(x=Sepal.Width, y=Petal.Length, fill=factor(Species)))+
+          geom_bar(stat="identity")+
+          ggtitle('Bar Plot')
+      }
+      else if(input$continuous2=='Petal.Width'){
+        ggplot(data=iris, aes(x=Sepal.Width, y=Petal.Width, fill=factor(Species)))+
+          geom_bar(stat="identity")+
+          ggtitle('Bar Plot')
+      }
+    }
+  })
+
+  
+  output$twobox<-renderPlot({
+    if(input$continuous1=='Sepal.Length'){
+      if(input$continuous2=='Petal.Length'){
+        ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Length, color=Species)) +
+          geom_boxplot()+
+          ggtitle('Boxplot')
+      }
+      else if(input$continuous2=='Petal.Width'){
+        ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Width, color=Species)) +
+          geom_boxplot()+
+          ggtitle('Boxplot')
+      }
+    }
+    else if(input$continuous1=='Sepal.Width'){
+      if(input$continuous2=='Petal.Length'){
+        ggplot(data=iris, aes(x=Sepal.Width, y=Petal.Length, color=Species)) +
+          geom_boxplot()+
+          ggtitle('Boxplot')
+      }
+      else if(input$continuous2=='Petal.Width'){
+        ggplot(data=iris, aes(x=Sepal.Width, y=Petal.Width, color=Species)) +
+          geom_boxplot()+
+          ggtitle('Boxplot')
+      }
+    }
+  })
+  
+
   
   
   ###### Maps ######
