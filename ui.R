@@ -189,12 +189,6 @@ body = dashboardBody(
     ),
     ######Advanced
     tabItem(tabName = 'exp4',
-            #div(style="display: inline-block;vertical-align:top;",
-            #    tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19))
-            #),
-            #div(style="display: inline-block;vertical-align:top;",
-            #    circleButton("info",icon = icon("info"), status = "myClass",size = "xs")
-            #),
             tabsetPanel(type = 'tabs',
                         
                         ###### Maps ######
@@ -217,22 +211,13 @@ body = dashboardBody(
                                      
                                  ),
                                  
-                                 box(title = NULL, style = 'background-color: #f0f4c3', width = NULL, height = NULL,
-                                     # conditionalPanel('input.mapsOp == "World Map"',
-                                     #                  tags$strong('R code: '),
-                                     #                  br(),
-                                     #                  tags$i('Data Processing:'),
-                                     #                  uiOutput('worldMapCode1'),
-                                     #                  tags$i('Graph Generating:'),
-                                     #                  uiOutput('worldMapCode2'),
-                                     #                  br(),
-                                     #                  plotOutput('worldMapOut1')
-                                     #                  ),
+                                 box(title = NULL, style = 'background-color: #f0f4c3', width=NULL, height = NULL,
+                                
                                      conditionalPanel('input.mapsOp == "US Map - ggplot2"',
                                                       tags$strong('R code: '),
                                                       uiOutput('usMapOut2'),
                                                       br(),
-                                                      div(style = "height: 500px; width: 700px",plotOutput('usMapOut1')
+                                                      div(style = "height: 300px; width: 600px",plotOutput('usMapOut1')
                                                       )),
                                      
                                      conditionalPanel('input.mapsOp == "US Map - plotly"',
