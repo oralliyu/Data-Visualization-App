@@ -12,6 +12,7 @@ library(plotly)
 library(ggplot2)
 library(ggmap)
 library(datasets)
+library(learnr)
 
 shinyServer(function(input, output, session) {
   observeEvent(input$info0,{
@@ -40,21 +41,58 @@ shinyServer(function(input, output, session) {
     renderPlot({
       if (input$dataset == 'cars'){
         if (input$carsVariable == 'speed'){
-          plot(density(cars$speed), main = "Density Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            plot(density(cars$speed), main = "Density Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(speed), data=cars)+
+              geom_density(color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Density Plot')
+          }
         }
         else if(input$carsVariable == 'dist'){
-          plot(density(cars$dist), main = "Density Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            plot(density(cars$dist), main = "Density Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(dist), data=cars)+
+              geom_density(color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Density Plot')
+          }
         }
       }
       else if (input$dataset == 'trees'){
         if (input$treesVariable == 'Girth'){
-          plot(density(trees$Girth), main = "Density Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            plot(density(trees$Girth), main = "Density Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(Girth), data=trees)+
+              geom_density(color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Density Plot')
+          }
         }
         else if(input$treesVariable == 'Height'){
-          plot(density(trees$Height), main = "Density Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            plot(density(trees$Height), main = "Density Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(Height), data=trees)+
+              geom_density(color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Density Plot')
+          }
+          
         }
         else if(input$treesVariable == 'Volume'){
-          plot(density(trees$Volume), main = "Density Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            plot(density(trees$Volume), main = "Density Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(Volume), data=trees)+
+              geom_density(color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Density Plot')
+          }
+         
         }
       }
     })
