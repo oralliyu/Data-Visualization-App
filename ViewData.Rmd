@@ -1,0 +1,14 @@
+---
+output: pdf
+editor_options: 
+  chunk_output_type: inline
+---
+### Glimpse the Data
+*cars*
+```{r}
+head(cars)
+```
+*trees*
+```{r}
+head(trees)
+```

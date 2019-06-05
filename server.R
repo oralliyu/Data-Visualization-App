@@ -100,21 +100,59 @@ shinyServer(function(input, output, session) {
   output$onehist<-renderPlot({
     if (input$dataset == 'cars'){
       if (input$carsVariable == 'speed'){
-        hist(cars$speed, main = "Histogram", xlab = input$carsVariable)
+        if(input$plotType == 'plot'){
+          hist(cars$speed, main = "Histogram", xlab = input$carsVariable)
+        }
+        else if(input$plotType == 'ggplot'){
+          ggplot(aes(speed), data=cars)+
+            geom_histogram(color="darkblue", fill="lightblue", alpha=0.4)+
+            ggtitle("Histogram")
+        }
       }
       else if(input$carsVariable == 'dist'){
-        hist(cars$dist, main = "Histogram", xlab = input$carsVariable)
+        if(input$plotType == 'plot'){
+          hist(cars$dist, main = "Histogram", xlab = input$carsVariable)
+        }
+        else if(input$plotType == 'ggplot'){
+          ggplot(aes(dist), data=cars)+
+            geom_histogram(color="darkblue", fill="lightblue", alpha=0.4)+
+            ggtitle("Histogram")
+        }
+        
       }
     }
     else if (input$dataset == 'trees'){
       if (input$treesVariable == 'Girth'){
-        hist(trees$Girth, main = "Histogram", xlab = input$carsVariable)
+        if(input$plotType == 'plot'){
+          hist(trees$Girth, main = "Histogram", xlab = input$carsVariable)
+        }
+        else if(input$plotType == 'ggplot'){
+          ggplot(aes(Girth), data=trees)+
+            geom_histogram(color="darkblue", fill="lightblue", alpha=0.4)+
+            ggtitle("Histogram")
+        }
+        
       }
       else if(input$treesVariable == 'Height'){
-        hist(trees$Height, main = "Histogram", xlab = input$carsVariable)
+        if(input$plotType == 'plot'){
+          hist(trees$Height, main = "Histogram", xlab = input$carsVariable)
+        }
+        else if(input$plotType == 'ggplot'){
+          ggplot(aes(Height), data=trees)+
+            geom_histogram(color="darkblue", fill="lightblue", alpha=0.4)+
+            ggtitle("Histogram")
+        }
       }
       else if(input$treesVariable == 'Volume'){
-        hist(trees$Volume, main = "Histogram", xlab = input$carsVariable)
+        if(input$plotType == 'plot'){
+          hist(trees$Volume, main = "Histogram", xlab = input$carsVariable)
+        }
+        else if(input$plotType == 'ggplot'){
+          ggplot(aes(Volume), data=trees)+
+            geom_histogram(color="darkblue", fill="lightblue", alpha=0.4)+
+            ggtitle("Histogram")
+        }
+        
       }
     }
   })
@@ -123,21 +161,68 @@ shinyServer(function(input, output, session) {
     renderPlot({
       if (input$dataset == 'cars'){
         if (input$carsVariable == 'speed'){
-          barplot(cars$speed, main = "Bar Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            barplot(cars$speed, main = "Bar Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(speed), data=cars)+
+              geom_freqpoly(bins = 30)+
+              geom_area(stat = "bin", bins = 30,
+                        color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Frequency polygon')
+          }
         }
         else if(input$carsVariable == 'dist'){
-          barplot(cars$dist, main = "Bar Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            barplot(cars$dist, main = "Bar Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(dist), data=cars)+
+              geom_freqpoly(bins = 30)+
+              geom_area(stat = "bin", bins = 30,
+                        color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Frequency polygon')
+          }
+          
         }
       }
       else if (input$dataset == 'trees'){
         if (input$treesVariable == 'Girth'){
-          barplot(trees$Girth, main = "Bar Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            barplot(trees$Girth, main = "Bar Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(Girth), data=trees)+
+              geom_freqpoly(bins = 30)+
+              geom_area(stat = "bin", bins = 30,
+                        color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Frequency polygon')
+          }
         }
         else if(input$treesVariable == 'Height'){
-          barplot(trees$Height, main = "Bar Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            barplot(trees$Height, main = "Bar Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(Height), data=trees)+
+              geom_freqpoly(bins = 30)+
+              geom_area(stat = "bin", bins = 30,
+                        color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Frequency polygon')
+          }
+          
         }
         else if(input$treesVariable == 'Volume'){
-          barplot(trees$Volume, main = "Bar Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            barplot(trees$Volume, main = "Bar Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(Volume), data=trees)+
+              geom_freqpoly(bins = 30)+
+              geom_area(stat = "bin", bins = 30,
+                        color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Frequency polygon')
+          }
         }
       }
     })
@@ -146,26 +231,61 @@ shinyServer(function(input, output, session) {
     renderPlot({
       if (input$dataset == 'cars'){
         if (input$carsVariable == 'speed'){
-          qqnorm(cars$speed)
-          qqline(cars$speed, col='red')
+          if (input$plotType == 'plot'){
+            qqnorm(cars$speed)
+            qqline(cars$speed, col='red')
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(sample=speed), data=cars)+
+              stat_qq(color="darkblue", fill="lightblue", alpha=0.4)+
+              stat_qq_line(color='red')
+          }
         }
         else if(input$carsVariable == 'dist'){
-          qqnorm(cars$dist)
-          qqline(cars$dist, col='red')
+          if (input$plotType == 'plot'){
+            qqnorm(cars$dist)
+            qqline(cars$dist, col='red')
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(sample=dist), data=cars)+
+              stat_qq(color="darkblue", fill="lightblue", alpha=0.4)+
+              stat_qq_line(color='red')
+          }
         }
       }
       else if (input$dataset == 'trees'){
         if (input$treesVariable == 'Girth'){
-          qqnorm(trees$Girth)
-          qqline(trees$Girth, col='red')
+          if (input$plotType == 'plot'){
+            qqnorm(trees$Girth)
+            qqline(trees$Girth, col='red')
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(sample=Girth), data=trees)+
+              stat_qq(color="darkblue", fill="lightblue", alpha=0.4)+
+              stat_qq_line(color='red')
+          }
         }
         else if(input$treesVariable == 'Height'){
-          qqnorm(trees$Height)
-          qqline(trees$Height, col='red')
+          if (input$plotType == 'plot'){
+            qqnorm(trees$Height)
+            qqline(trees$Height, col='red')
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(sample=Height), data=trees)+
+              stat_qq(color="darkblue", fill="lightblue", alpha=0.4)+
+              stat_qq_line(color='red')
+          }
         }
         else if(input$treesVariable == 'Volume'){
-          qqnorm(trees$Volume)
-          qqline(trees$Volume, col='red')
+          if (input$plotType == 'plot'){
+            qqnorm(trees$Volume)
+            qqline(trees$Volume, col='red')
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(sample=Volume), data=trees)+
+              stat_qq(color="darkblue", fill="lightblue", alpha=0.4)+
+              stat_qq_line(color='red')
+          }
         }
       }
     })

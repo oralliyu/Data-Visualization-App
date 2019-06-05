@@ -82,7 +82,7 @@ body = dashboardBody(
                                  br(),
                                  h4('This section illustrates R code for data 
                                     visulization includes plot() and ggplot() with one Variable'),
-                                 includeMarkdown("ViewData.Rmd"),
+                                 
                                  br(),
                                  sidebarLayout(
                                    sidebarPanel(
@@ -111,6 +111,7 @@ body = dashboardBody(
                                                    choices = c("Girth", "Height", "Volume"),
                                                    selected = 'Girth')
                                      )
+                                     #includeHTML("ViewData.nb.html")
                                    ),
                                    
                                    
