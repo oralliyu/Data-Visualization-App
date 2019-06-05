@@ -15,6 +15,14 @@ library(datasets)
 library(learnr)
 
 shinyServer(function(input, output, session) {
+  ###download pdf of data
+  output$downloadData <- downloadHandler(
+    filename = "Preview of Data.pdf",
+    content = function(file) {
+      file.copy("www/DataView.pdf", file)
+    }
+  )
+  
   observeEvent(input$info0,{
     sendSweetAlert(
       session = session,
@@ -37,7 +45,7 @@ shinyServer(function(input, output, session) {
   
   ############ Data Visualization ############
   ###########One Single Variable Plot##############
-  output$onescatter<-
+  output$oneDensity<-
     renderPlot({
       if (input$dataset == 'cars'){
         if (input$carsVariable == 'speed'){
@@ -290,41 +298,102 @@ shinyServer(function(input, output, session) {
       }
     })
   
-  output$DensityoneCode <- renderUI({
+  output$DensityoneCode <- renderText({
     if (input$dataset == 'cars'){
-      tags$code('plot(density(', input$dataset, '$', input$carsVariable, '))')
+      if (input$plotType == 'plot'){
+        paste('plot(density(', input$dataset, '$', input$carsVariable, '))', seq='')
+      }
+      else if (input$plotType == 'ggplot'){
+        paste("ggplot(aes(",input$carsVariable,"), data=cars)+
+          geom_density(color='darkblue', fill='lightblue', alpha=0.4)+
+          ggtitle('Density Plot')", seq='')
+      }
     }
     else{
-      tags$code('plot(density(', input$dataset, '$', input$treesVariable, ')')
+      if (input$plotType == 'plot'){
+        paste('plot(density(', input$dataset, '$', input$treesVariable, ')', seq='')
+      }
+      else if (input$plotType == 'ggplot'){
+        paste("ggplot(aes(",input$treesVariable,"), data=trees)+
+              geom_density(color='darkblue', fill='lightblue', alpha=0.4)+
+              ggtitle('Density Plot')", seq='')
+      }
     }
   })
   
-  output$HistogramoneCode <- renderUI({
+  output$HistogramoneCode <- renderText({
     if (input$dataset == 'cars'){
-      tags$code('hist(', input$dataset, '$', input$carsVariable, ')')
+      if(input$plotType == 'plot'){
+        paste('hist(', input$dataset, '$', input$carsVariable, ')', seq='')
+      }
+      else{
+        paste("ggplot(aes(",input$carsVariable,"), data=cars)+
+          geom_histogram(color='darkblue', fill='lightblue', alpha=0.4)+
+          ggtitle('Histogram')", seq='')
+      }
     }
     else{
-      tags$code('hist(', input$dataset, '$', input$treesVariable, ')')
+      if(input$plotType == 'plot'){
+        paste('hist(', input$dataset, '$', input$treesVariable, ')', seq='')
+      }
+      else{
+        paste("ggplot(aes(",input$treesVariable,"), data=trees)+
+              geom_histogram(color='darkblue', fill='lightblue', alpha=0.4)+
+              ggtitle('Histogram')", seq='')
+      }
     }
   })
   
-  output$BarCode <- renderUI({
+  output$BarCode <- renderText({
     if (input$dataset == 'cars'){
-      tags$code('barplot(', input$dataset, '$', input$carsVariable, ')')
+      if (input$plotType == 'plot'){
+        paste('barplot(', input$dataset, '$', input$carsVariable, ')', seq='')
+      }
+      else{
+        paste("ggplot(aes(",input$carsVariable,"), data=cars)+
+                geom_freqpoly(bins = 30)+
+                geom_area(stat = 'bin', bins = 30,
+                          color='darkblue', fill='lightblue', alpha=0.4)+
+                ggtitle('Frequency polygon')")
+      }
     }
     else{
-      tags$code('barplot(', input$dataset, '$', input$treesVariable, ')')
+      if (input$plotType == 'plot'){
+        paste('barplot(', input$dataset, '$', input$treesVariable, ')', seq='')
+      }
+      else{
+        paste("ggplot(aes(",input$treesVariable,"), data=trees)+
+              geom_freqpoly(bins = 30)+
+              geom_area(stat = 'bin', bins = 30,
+              color='darkblue', fill='lightblue', alpha=0.4)+
+              ggtitle('Frequency polygon')")
+      }
     }
   })
   
   output$qqCode <- renderText({
     if (input$dataset == 'cars'){
-      paste0('qqnorm(', input$dataset, '$', input$carsVariable, ')',
-             '\n qqline(', input$dataset, '$', input$carsVariable, ')', seq='')
+      if (input$plotType == 'plot'){
+        paste0('qqnorm(', input$dataset, '$', input$carsVariable, ')',
+               '\n qqline(', input$dataset, '$', input$carsVariable, ')', seq='')
+      }
+      else{
+        paste("ggplot(aes(sample=",input$carsVariable,"), data=cars)+
+          stat_qq(color='darkblue', fill='lightblue', alpha=0.4)+
+          stat_qq_line(color='red')", seq='')
+      }
     }
     else{
-      paste0('qqnorm(', input$dataset, '$', input$treesVariable, ')',
-             'qqline(', input$dataset, '$', input$treesVariable, ')', seq='')
+      if (input$plotType == 'plot'){
+        paste0('qqnorm(', input$dataset, '$', input$treesVariable, ')',
+               'qqline(', input$dataset, '$', input$treesVariable, ')', seq='')
+      }
+      else{
+        paste("ggplot(aes(sample=",input$treesVariable,"), data=trees)+
+              stat_qq(color='darkblue', fill='lightblue', alpha=0.4)+
+              stat_qq_line(color='red')", seq='')
+      }
+      
     }
   })
   ###########Two Variables########
