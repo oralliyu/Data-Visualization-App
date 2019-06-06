@@ -12,8 +12,17 @@ library(plotly)
 library(ggplot2)
 library(ggmap)
 library(datasets)
+library(learnr)
 
 shinyServer(function(input, output, session) {
+  ###download pdf of data
+  output$downloadData <- downloadHandler(
+    filename = "Preview of Data.pdf",
+    content = function(file) {
+      file.copy("www/DataView.pdf", file)
+    }
+  )
+  
   observeEvent(input$info0,{
     sendSweetAlert(
       session = session,
@@ -36,25 +45,62 @@ shinyServer(function(input, output, session) {
   
   ############ Data Visualization ############
   ###########One Single Variable Plot##############
-  output$onescatter<-
+  output$oneDensity<-
     renderPlot({
       if (input$dataset == 'cars'){
         if (input$carsVariable == 'speed'){
-          plot(density(cars$speed), main = "Density Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            plot(density(cars$speed), main = "Density Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(speed), data=cars)+
+              geom_density(color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Density Plot')
+          }
         }
         else if(input$carsVariable == 'dist'){
-          plot(density(cars$dist), main = "Density Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            plot(density(cars$dist), main = "Density Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(dist), data=cars)+
+              geom_density(color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Density Plot')
+          }
         }
       }
       else if (input$dataset == 'trees'){
         if (input$treesVariable == 'Girth'){
-          plot(density(trees$Girth), main = "Density Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            plot(density(trees$Girth), main = "Density Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(Girth), data=trees)+
+              geom_density(color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Density Plot')
+          }
         }
         else if(input$treesVariable == 'Height'){
-          plot(density(trees$Height), main = "Density Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            plot(density(trees$Height), main = "Density Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(Height), data=trees)+
+              geom_density(color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Density Plot')
+          }
+          
         }
         else if(input$treesVariable == 'Volume'){
-          plot(density(trees$Volume), main = "Density Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            plot(density(trees$Volume), main = "Density Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(Volume), data=trees)+
+              geom_density(color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Density Plot')
+          }
+         
         }
       }
     })
@@ -62,21 +108,59 @@ shinyServer(function(input, output, session) {
   output$onehist<-renderPlot({
     if (input$dataset == 'cars'){
       if (input$carsVariable == 'speed'){
-        hist(cars$speed, main = "Histogram", xlab = input$carsVariable)
+        if(input$plotType == 'plot'){
+          hist(cars$speed, main = "Histogram", xlab = input$carsVariable)
+        }
+        else if(input$plotType == 'ggplot'){
+          ggplot(aes(speed), data=cars)+
+            geom_histogram(color="darkblue", fill="lightblue", alpha=0.4)+
+            ggtitle("Histogram")
+        }
       }
       else if(input$carsVariable == 'dist'){
-        hist(cars$dist, main = "Histogram", xlab = input$carsVariable)
+        if(input$plotType == 'plot'){
+          hist(cars$dist, main = "Histogram", xlab = input$carsVariable)
+        }
+        else if(input$plotType == 'ggplot'){
+          ggplot(aes(dist), data=cars)+
+            geom_histogram(color="darkblue", fill="lightblue", alpha=0.4)+
+            ggtitle("Histogram")
+        }
+        
       }
     }
     else if (input$dataset == 'trees'){
       if (input$treesVariable == 'Girth'){
-        hist(trees$Girth, main = "Histogram", xlab = input$carsVariable)
+        if(input$plotType == 'plot'){
+          hist(trees$Girth, main = "Histogram", xlab = input$carsVariable)
+        }
+        else if(input$plotType == 'ggplot'){
+          ggplot(aes(Girth), data=trees)+
+            geom_histogram(color="darkblue", fill="lightblue", alpha=0.4)+
+            ggtitle("Histogram")
+        }
+        
       }
       else if(input$treesVariable == 'Height'){
-        hist(trees$Height, main = "Histogram", xlab = input$carsVariable)
+        if(input$plotType == 'plot'){
+          hist(trees$Height, main = "Histogram", xlab = input$carsVariable)
+        }
+        else if(input$plotType == 'ggplot'){
+          ggplot(aes(Height), data=trees)+
+            geom_histogram(color="darkblue", fill="lightblue", alpha=0.4)+
+            ggtitle("Histogram")
+        }
       }
       else if(input$treesVariable == 'Volume'){
-        hist(trees$Volume, main = "Histogram", xlab = input$carsVariable)
+        if(input$plotType == 'plot'){
+          hist(trees$Volume, main = "Histogram", xlab = input$carsVariable)
+        }
+        else if(input$plotType == 'ggplot'){
+          ggplot(aes(Volume), data=trees)+
+            geom_histogram(color="darkblue", fill="lightblue", alpha=0.4)+
+            ggtitle("Histogram")
+        }
+        
       }
     }
   })
@@ -85,21 +169,68 @@ shinyServer(function(input, output, session) {
     renderPlot({
       if (input$dataset == 'cars'){
         if (input$carsVariable == 'speed'){
-          barplot(cars$speed, main = "Bar Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            barplot(cars$speed, main = "Bar Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(speed), data=cars)+
+              geom_freqpoly(bins = 30)+
+              geom_area(stat = "bin", bins = 30,
+                        color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Frequency polygon')
+          }
         }
         else if(input$carsVariable == 'dist'){
-          barplot(cars$dist, main = "Bar Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            barplot(cars$dist, main = "Bar Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(dist), data=cars)+
+              geom_freqpoly(bins = 30)+
+              geom_area(stat = "bin", bins = 30,
+                        color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Frequency polygon')
+          }
+          
         }
       }
       else if (input$dataset == 'trees'){
         if (input$treesVariable == 'Girth'){
-          barplot(trees$Girth, main = "Bar Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            barplot(trees$Girth, main = "Bar Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(Girth), data=trees)+
+              geom_freqpoly(bins = 30)+
+              geom_area(stat = "bin", bins = 30,
+                        color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Frequency polygon')
+          }
         }
         else if(input$treesVariable == 'Height'){
-          barplot(trees$Height, main = "Bar Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            barplot(trees$Height, main = "Bar Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(Height), data=trees)+
+              geom_freqpoly(bins = 30)+
+              geom_area(stat = "bin", bins = 30,
+                        color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Frequency polygon')
+          }
+          
         }
         else if(input$treesVariable == 'Volume'){
-          barplot(trees$Volume, main = "Bar Plot", xlab = input$carsVariable)
+          if(input$plotType == 'plot'){
+            barplot(trees$Volume, main = "Bar Plot", xlab = input$carsVariable)
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(Volume), data=trees)+
+              geom_freqpoly(bins = 30)+
+              geom_area(stat = "bin", bins = 30,
+                        color="darkblue", fill="lightblue", alpha=0.4)+
+              ggtitle('Frequency polygon')
+          }
         }
       }
     })
@@ -108,65 +239,161 @@ shinyServer(function(input, output, session) {
     renderPlot({
       if (input$dataset == 'cars'){
         if (input$carsVariable == 'speed'){
-          qqnorm(cars$speed)
-          qqline(cars$speed, col='red')
+          if (input$plotType == 'plot'){
+            qqnorm(cars$speed)
+            qqline(cars$speed, col='red')
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(sample=speed), data=cars)+
+              stat_qq(color="darkblue", fill="lightblue", alpha=0.4)+
+              stat_qq_line(color='red')
+          }
         }
         else if(input$carsVariable == 'dist'){
-          qqnorm(cars$dist)
-          qqline(cars$dist, col='red')
+          if (input$plotType == 'plot'){
+            qqnorm(cars$dist)
+            qqline(cars$dist, col='red')
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(sample=dist), data=cars)+
+              stat_qq(color="darkblue", fill="lightblue", alpha=0.4)+
+              stat_qq_line(color='red')
+          }
         }
       }
       else if (input$dataset == 'trees'){
         if (input$treesVariable == 'Girth'){
-          qqnorm(trees$Girth)
-          qqline(trees$Girth, col='red')
+          if (input$plotType == 'plot'){
+            qqnorm(trees$Girth)
+            qqline(trees$Girth, col='red')
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(sample=Girth), data=trees)+
+              stat_qq(color="darkblue", fill="lightblue", alpha=0.4)+
+              stat_qq_line(color='red')
+          }
         }
         else if(input$treesVariable == 'Height'){
-          qqnorm(trees$Height)
-          qqline(trees$Height, col='red')
+          if (input$plotType == 'plot'){
+            qqnorm(trees$Height)
+            qqline(trees$Height, col='red')
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(sample=Height), data=trees)+
+              stat_qq(color="darkblue", fill="lightblue", alpha=0.4)+
+              stat_qq_line(color='red')
+          }
         }
         else if(input$treesVariable == 'Volume'){
-          qqnorm(trees$Volume)
-          qqline(trees$Volume, col='red')
+          if (input$plotType == 'plot'){
+            qqnorm(trees$Volume)
+            qqline(trees$Volume, col='red')
+          }
+          else if(input$plotType == 'ggplot'){
+            ggplot(aes(sample=Volume), data=trees)+
+              stat_qq(color="darkblue", fill="lightblue", alpha=0.4)+
+              stat_qq_line(color='red')
+          }
         }
       }
     })
   
-  output$DensityoneCode <- renderUI({
+  output$DensityoneCode <- renderText({
     if (input$dataset == 'cars'){
-      tags$code('plot(density(', input$dataset, '$', input$carsVariable, '))')
+      if (input$plotType == 'plot'){
+        paste('plot(density(', input$dataset, '$', input$carsVariable, '))', seq='')
+      }
+      else if (input$plotType == 'ggplot'){
+        paste("ggplot(aes(",input$carsVariable,"), data=cars)+
+          geom_density(color='darkblue', fill='lightblue', alpha=0.4)+
+          ggtitle('Density Plot')", seq='')
+      }
     }
     else{
-      tags$code('plot(density(', input$dataset, '$', input$treesVariable, ')')
+      if (input$plotType == 'plot'){
+        paste('plot(density(', input$dataset, '$', input$treesVariable, ')', seq='')
+      }
+      else if (input$plotType == 'ggplot'){
+        paste("ggplot(aes(",input$treesVariable,"), data=trees)+
+              geom_density(color='darkblue', fill='lightblue', alpha=0.4)+
+              ggtitle('Density Plot')", seq='')
+      }
     }
   })
   
-  output$HistogramoneCode <- renderUI({
+  output$HistogramoneCode <- renderText({
     if (input$dataset == 'cars'){
-      tags$code('hist(', input$dataset, '$', input$carsVariable, ')')
+      if(input$plotType == 'plot'){
+        paste('hist(', input$dataset, '$', input$carsVariable, ')', seq='')
+      }
+      else{
+        paste("ggplot(aes(",input$carsVariable,"), data=cars)+
+          geom_histogram(color='darkblue', fill='lightblue', alpha=0.4)+
+          ggtitle('Histogram')", seq='')
+      }
     }
     else{
-      tags$code('hist(', input$dataset, '$', input$treesVariable, ')')
+      if(input$plotType == 'plot'){
+        paste('hist(', input$dataset, '$', input$treesVariable, ')', seq='')
+      }
+      else{
+        paste("ggplot(aes(",input$treesVariable,"), data=trees)+
+              geom_histogram(color='darkblue', fill='lightblue', alpha=0.4)+
+              ggtitle('Histogram')", seq='')
+      }
     }
   })
   
-  output$BarCode <- renderUI({
+  output$BarCode <- renderText({
     if (input$dataset == 'cars'){
-      tags$code('barplot(', input$dataset, '$', input$carsVariable, ')')
+      if (input$plotType == 'plot'){
+        paste('barplot(', input$dataset, '$', input$carsVariable, ')', seq='')
+      }
+      else{
+        paste("ggplot(aes(",input$carsVariable,"), data=cars)+
+                geom_freqpoly(bins = 30)+
+                geom_area(stat = 'bin', bins = 30,
+                          color='darkblue', fill='lightblue', alpha=0.4)+
+                ggtitle('Frequency polygon')")
+      }
     }
     else{
-      tags$code('barplot(', input$dataset, '$', input$treesVariable, ')')
+      if (input$plotType == 'plot'){
+        paste('barplot(', input$dataset, '$', input$treesVariable, ')', seq='')
+      }
+      else{
+        paste("ggplot(aes(",input$treesVariable,"), data=trees)+
+              geom_freqpoly(bins = 30)+
+              geom_area(stat = 'bin', bins = 30,
+              color='darkblue', fill='lightblue', alpha=0.4)+
+              ggtitle('Frequency polygon')")
+      }
     }
   })
   
   output$qqCode <- renderText({
     if (input$dataset == 'cars'){
-      paste0('qqnorm(', input$dataset, '$', input$carsVariable, ')',
-             '\n qqline(', input$dataset, '$', input$carsVariable, ')', seq='')
+      if (input$plotType == 'plot'){
+        paste0('qqnorm(', input$dataset, '$', input$carsVariable, ')',
+               '\n qqline(', input$dataset, '$', input$carsVariable, ')', seq='')
+      }
+      else{
+        paste("ggplot(aes(sample=",input$carsVariable,"), data=cars)+
+          stat_qq(color='darkblue', fill='lightblue', alpha=0.4)+
+          stat_qq_line(color='red')", seq='')
+      }
     }
     else{
-      paste0('qqnorm(', input$dataset, '$', input$treesVariable, ')',
-             'qqline(', input$dataset, '$', input$treesVariable, ')', seq='')
+      if (input$plotType == 'plot'){
+        paste0('qqnorm(', input$dataset, '$', input$treesVariable, ')',
+               'qqline(', input$dataset, '$', input$treesVariable, ')', seq='')
+      }
+      else{
+        paste("ggplot(aes(sample=",input$treesVariable,"), data=trees)+
+              stat_qq(color='darkblue', fill='lightblue', alpha=0.4)+
+              stat_qq_line(color='red')", seq='')
+      }
+      
     }
   })
   ###########Two Variables########
