@@ -23,7 +23,7 @@ header = dashboardHeader(title = 'Data Visualization',
 sidebar = dashboardSidebar(
   sidebarMenu(id = 'tabs',
               menuItem('Overview', tabName = 'overview', icon = icon("dashboard")),
-              menuItem('Graph for Variables', tabName = 'VisualOne', 
+              menuItem('Simple Data Visualization', tabName = 'VisualOne', 
                        icon = icon('wpexplorer')),
               menuItem('Advanced Data Visualization', tabName = 'exp4', icon = icon('wpexplorer'))
   )
@@ -34,7 +34,6 @@ body = dashboardBody(
     tags$link(rel = "stylesheet", type = "text/css", href = "Feature.css")
   ),
   tags$style(type = "text/css", ".content-wrapper,.right-side {background-color: white;}"),
-  #tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "style.css")),
   
   useShinyjs(),
   
@@ -131,7 +130,9 @@ body = dashboardBody(
                                      br(),
                                      br(),
                                      br(),
-                                     tags$head(tags$style("#qqCode, #BarCode, #DensityoneCode, #HistogramoneCode{color: #005485}"
+                                     tags$head(tags$style("#qqCode, #BarCode, #DensityoneCode, #HistogramoneCode,
+                                                          #twoscattercode, #logTransformationCode, #twobarcode, #twoboxcode
+                                                          {color: #005485}"
                                      )),
                                      
                                      
@@ -142,13 +143,19 @@ body = dashboardBody(
                                      fluidRow(
                                        column(width = 6, textOutput(outputId="BarCode")),
                                        column(width = 6, textOutput(outputId="qqCode"))
-                                     )
+                                     ),
+                                     br(),
+                                     br(),
+                                     div(style = 'text-align: center', 
+                                         bsButton(inputId = 'next2', label = 'Next Section', 
+                                                  icon = icon('angle-double-right'), size = 'small', 
+                                                  class='circle grow'))
                                    )
                                  )
                                  ),
                         
                         ###### Two Variable ######
-                        tabPanel('Two Variables',
+                        tabPanel(title='Two Variables', value='panel2',
                                  h3(strong('Two Variables Visualization')),
                                  br(),
                                  h4('This section illustrates R code for data 
@@ -182,13 +189,29 @@ body = dashboardBody(
                                        column(6,plotOutput(outputId="twoscatter")),
                                        column(6,plotOutput(outputId="logTransformation"))
                                      ),
+                                     br(),
+                                     fluidRow(
+                                       column(6,textOutput(outputId="twoscattercode")),
+                                       column(6,textOutput(outputId="logTransformationCode"))
+                                     ),
+                                     br(),
                                      fluidRow(
                                        column(6,plotOutput(outputId="twobar")),
                                        column(6,plotOutput(outputId="twobox"))
+                                     ),
+                                     br(),
+                                     fluidRow(
+                                       column(6,textOutput(outputId="twobarcode")),
+                                       column(6,textOutput(outputId="twoboxcode"))
                                      )
                                    )
                                  )
-                                 )
+                                 ),
+                        
+                        tabPanel(title='Exercise', value='panel2',
+                                 br(),
+                                 br(),
+                                 uiOutput("urltest"))
             )
     ),
     ######Advanced

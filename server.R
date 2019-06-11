@@ -23,6 +23,10 @@ shinyServer(function(input, output, session) {
     }
   )
   
+  output$urltest <- renderUI({
+    tags$iframe(src="https://yvngong.shinyapps.io/test/", width="100%", height = 700)
+  })
+  
   observeEvent(input$info0,{
     sendSweetAlert(
       session = session,
@@ -41,6 +45,10 @@ shinyServer(function(input, output, session) {
   })
   observeEvent(input$go2, {
     updateTabItems(session, 'tabs', 'VisualOne')
+  })
+  
+  observeEvent(input$next2, {
+    updateTabsetPanel(session, 'VisualOne', selected = 'panel2')
   })
   
   ############ Data Visualization ############
@@ -432,7 +440,7 @@ shinyServer(function(input, output, session) {
   output$logTransformation<-renderPlot({
     if(input$continuous1=='Sepal.Length'){
       if(input$continuous2=='Petal.Length'){
-        ggplot(aes(Sepal.Width, Petal.Width), data=iris)+
+        ggplot(aes(Sepal.Length, Petal.Length), data=iris)+
           geom_point(aes(colour = factor(Species)))+
           coord_trans(x="log2", y="log2")+
           ggtitle("Log Transformation")
@@ -518,8 +526,33 @@ shinyServer(function(input, output, session) {
     }
   })
   
-
+  output$twoscattercode<-renderText({
+    paste("ggplot(aes(",input$continuous1,',', input$continuous2, "), data=iris)+
+      geom_point(aes(colour = factor(Species)))+
+      geom_smooth(aes(colour = factor(Species)), linetype='twodash', size=0.8)+
+      ggtitle('Scatter Plot')", seq='')
+  }
+  )
   
+  output$logTransformationCode<-renderText({
+    paste("ggplot(aes(", input$continuous1,',', input$continuous2, "), data=iris)+
+      geom_point(aes(colour = factor(Species)))+
+      coord_trans(x='log2', y='log2')+
+      ggtitle('Log Transformation')", seq='')
+  })
+  
+  output$twobarcode<-renderText({
+    paste("ggplot(data=iris, aes(", input$continuous1,',', input$continuous2, 
+          "fill=factor(Species)))+
+                    geom_bar(stat='identity')+
+                    ggtitle('Bar Plot')", seq='')
+  })
+  
+  output$twoboxcode<-renderText({
+    paste("ggplot(data=iris, aes(", input$continuous1,',', input$continuous2, "color=Species)) +
+      geom_boxplot()+
+      ggtitle('Boxplot')", seq='')
+  })
   
   ###### Maps ######
   #a. usMap
