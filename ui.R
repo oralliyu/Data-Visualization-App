@@ -211,7 +211,9 @@ body = dashboardBody(
                         tabPanel(title='Exercise', value='panel2',
                                  br(),
                                  br(),
-                                 uiOutput("urltest"))
+                                 #uiOutput("urltest"))
+                                 includeMarkdown("test.Rmd")
+                        )
             )
     ),
     ######Advanced
