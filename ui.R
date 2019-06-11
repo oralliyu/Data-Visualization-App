@@ -223,8 +223,11 @@ body = dashboardBody(
                                  br(),
                                  box(title = NULL, style = 'background-color: #dce775', width = NULL, height = NULL,
                                      
-                                     selectInput(inputId = 'mapsOp', label = 'Make a US/World Map with ggplot2', choices = c('US Map - ggplot2', 'US Map - plotly'), selected = 'US Map'),
-                                     bsPopover(id = 'mapsOp', title = " ", content = 'mUSMap takes in one dataframe that includes information about different US states and returns this data or a ggplot object constructed with the data. mWorldMap does the same but it takes in one dataframe that includes information about different countries.', trigger = 'click'),
+                                     selectInput(inputId = 'mapsOp', label = 'Make a US/World Map with ggplot2',
+                                                 choices = c('US Map - ggplot2', 'US Map - plotly'), selected = 'US Map'),
+                                     bsPopover(id = 'mapsOp', title = " ", content = 'mUSMap takes in one dataframe that includes information about different
+                                               US states and returns this data or a ggplot object constructed with the data. mWorldMap does the same but it
+                                               takes in one dataframe that includes information about different countries.', trigger = 'click'),
                                      
                                      # conditionalPanel('input.mapsOp == "World Map"',
                                      #                  sliderInput(inputId = 'worldMap1', label = 'The Number of Color Scales', min = 1, max = 10,
