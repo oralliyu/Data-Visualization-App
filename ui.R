@@ -210,8 +210,6 @@ body = dashboardBody(
                                  ),
                         
                         tabPanel(title='Exercise', value='panel2',
-                                 br(),
-                                 br(),
                                  #uiOutput("urltest"))
                                  #includeMarkdown("test.Rmd")
                                  #system.file("knitr", package="shinyAce")
@@ -223,18 +221,27 @@ body = dashboardBody(
                                          div(class="span6",
                                              h2("Source R-Markdown"),  
                                              aceEditor("rmd", mode="markdown", value='### Sample knitr Doc
-                                                       This is some markdown text. It may also have embedded R code
-                                                       which will be executed.
-                                                       ```{r}
-                                                       2*3
-                                                       rnorm(5)
-                                                       ```
-                                                       It can even include graphical elements.
-                                                       ```{r}
-                                                       hist(rnorm(100))
-                                                       ```
-                                                       '),
-                                             actionButton("eval", "Update")
+This is some markdown text. It may also have embedded R code
+which will be executed.
+```{r}
+knitr::knit_hooks$set(error = function(x, options) {
+  paste0("<pre style=\"color: red;\"><code>", x, "</code></pre>")}                                                      })
+```
+```{r}
+#Glimpse on Dataset we used
+head(cars)
+head(trees)
+head(iris)
+```
+
+```{r}
+
+```
+It can even include graphical elements.
+```{r}
+hist(cars$speed)
+```'),
+                                             actionButton("eval", "Run")
                                              ),
                                          div(class="span6",
                                              h2("Knitted Output"),

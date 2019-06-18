@@ -32,7 +32,12 @@ shinyServer(function(input, output, session) {
   ###KNITR
   output$knitDoc <- renderUI({
     input$eval
-    return(isolate(HTML(knit2html(text = input$rmd, fragment.only = TRUE, quiet = TRUE))))
+    return(isolate(HTML(knit2html(text = input$rmd, fragment.only = TRUE, quiet = FALSE))))
+  })
+  
+  output$output <- renderPrint({
+    input$eval
+    return(isolate(eval(parse(text=input$code))))
   })  
   
   output$urltest <- renderUI({
@@ -62,6 +67,8 @@ shinyServer(function(input, output, session) {
   observeEvent(input$next2, {
     updateTabsetPanel(session, 'VisualOne', selected = 'panel2')
   })
+  
+  
   
   ############ Data Visualization ############
   ###########One Single Variable Plot##############
