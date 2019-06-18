@@ -13,8 +13,14 @@ library(ggplot2)
 library(ggmap)
 library(datasets)
 library(learnr)
+library(knitr)
+library(rmarkdown)
+library(shinyAce)
 
 shinyServer(function(input, output, session) {
+  output$markdown <- renderUI({
+    HTML(markdown::markdownToHTML(knit('test.Rmd', quiet = TRUE)))
+  })
   ###download pdf of data
   output$downloadData <- downloadHandler(
     filename = "Preview of Data.pdf",
@@ -22,6 +28,12 @@ shinyServer(function(input, output, session) {
       file.copy("www/DataView.pdf", file)
     }
   )
+  
+  ###KNITR
+  output$knitDoc <- renderUI({
+    input$eval
+    return(isolate(HTML(knit2html(text = input$rmd, fragment.only = TRUE, quiet = TRUE))))
+  })  
   
   output$urltest <- renderUI({
     tags$iframe(src="https://yvngong.shinyapps.io/test/", width="100%", height = 700)

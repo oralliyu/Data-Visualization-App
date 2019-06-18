@@ -12,6 +12,7 @@ library(EDAWR)
 library(plot3D)
 library(ggmap)
 library(datasets)
+library(shinyAce)
 
 header = dashboardHeader(title = 'Data Visualization',
                          tags$li(class = "dropdown",
@@ -212,7 +213,35 @@ body = dashboardBody(
                                  br(),
                                  br(),
                                  #uiOutput("urltest"))
-                                 includeMarkdown("test.Rmd")
+                                 #includeMarkdown("test.Rmd")
+                                 #system.file("knitr", package="shinyAce")
+                                 bootstrapPage(
+                                   headerPanel("Shiny Ace knitr Example"),
+                                   div(
+                                     class="container-fluid",
+                                     div(class="row-fluid",
+                                         div(class="span6",
+                                             h2("Source R-Markdown"),  
+                                             aceEditor("rmd", mode="markdown", value='### Sample knitr Doc
+                                                       This is some markdown text. It may also have embedded R code
+                                                       which will be executed.
+                                                       ```{r}
+                                                       2*3
+                                                       rnorm(5)
+                                                       ```
+                                                       It can even include graphical elements.
+                                                       ```{r}
+                                                       hist(rnorm(100))
+                                                       ```
+                                                       '),
+                                             actionButton("eval", "Update")
+                                             ),
+                                         div(class="span6",
+                                             h2("Knitted Output"),
+                                             htmlOutput("knitDoc")
+                                         )
+                                         )
+                                         ))
                         )
             )
     ),
