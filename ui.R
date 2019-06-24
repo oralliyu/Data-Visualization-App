@@ -115,10 +115,22 @@ body = dashboardBody(
                                      #includeHTML("ViewData.nb.html")
                                      #tags$a(tags$img(src="pdficon.png"), href="DataView.pdf", download="Viewdata.pdf")
                                      br(),
-                                     downloadLink("downloadData", "Preview of Data")
+                                     #downloadLink("downloadData", "Preview of Data"),
+                                     
+                                       checkboxInput("previewData", "Preview of Datasets")
+                                       
                                    ),
                                    
                                    mainPanel(
+                                     conditionalPanel(
+                                       condition="input.previewData==1",
+                                       fluidRow(
+                                         column(1, p(strong("Dataset cars"))),
+                                         column(5, tableOutput("Previewcar")),
+                                         column(1, p(strong("Dataset trees"))),
+                                         column(5, tableOutput("Previewtree"))
+                                       )
+                                     ),
                                      fluidRow(
                                        column(6,plotOutput(outputId="oneDensity", width="100%",height="300px")),  
                                        column(6,plotOutput(outputId="onehist", width="100%",height="300px"))
@@ -146,11 +158,11 @@ body = dashboardBody(
                                        column(width = 6, textOutput(outputId="qqCode"))
                                      ),
                                      br(),
-                                     br(),
-                                     div(style = 'text-align: center', 
-                                         bsButton(inputId = 'next2', label = 'Next Section', 
-                                                  icon = icon('angle-double-right'), size = 'small', 
-                                                  class='circle grow'))
+                                     br()
+                                     # div(style = 'text-align: center', 
+                                     #     bsButton(inputId = 'next2', label = 'Next Section', 
+                                     #              icon = icon('angle-double-right'), size = 'small', 
+                                     #              class='circle grow'))
                                    )
                                  )
                                  ),
@@ -181,11 +193,23 @@ body = dashboardBody(
                                      selectInput(inputId="CategoryVar", 
                                                  label="Select Categorical Variable:",
                                                  choices= 'Species',
-                                                 selected = 'Species')
+                                                 selected = 'Species'),
+                                     br(),
+                                     checkboxInput("previewDataTwo", "Preview of Datasets")
+                                     
                                      
                                    ),
                                    
                                    mainPanel(
+                                     conditionalPanel(
+                                       condition="input.previewDataTwo==1",
+                                       fluidRow(
+                                         column(1, p(strong("Dataset iris"))),
+                                         column(5, tableOutput("Previewiris"))
+                                       )
+                                       #tableOutput("Previewiris")
+                                       #p("First four rows of dataset iris")
+                                     ),
                                      fluidRow(
                                        column(6,plotOutput(outputId="twoscatter")),
                                        column(6,plotOutput(outputId="logTransformation"))
@@ -213,20 +237,17 @@ body = dashboardBody(
                                  #uiOutput("urltest"))
                                  #includeMarkdown("test.Rmd")
                                  #system.file("knitr", package="shinyAce")
-                                 bootstrapPage(
-                                   headerPanel("Shiny Ace knitr Example"),
-                                   div(
-                                     class="container-fluid",
-                                     div(class="row-fluid",
-                                         div(class="span6",
-                                             h2("Source R-Markdown"),  
-                                             aceEditor("rmd", mode="markdown", value='### Sample knitr Doc
+                                 
+                                 fluidRow(
+                                   column(6,
+                                          verticalLayout(
+                                          h4("Problem Set Goes Here!!!"),
+                                          h4("Problem Set Goes Here!!!"),
+                                          h4("Problem Set Goes Here!!!"),
+                                          h2("Source R-Markdown"),  
+                                          aceEditor("rmd", mode="markdown", value='### Sample knitr Doc
 This is some markdown text. It may also have embedded R code
 which will be executed.
-```{r}
-knitr::knit_hooks$set(error = function(x, options) {
-  paste0("<pre style=\"color: red;\"><code>", x, "</code></pre>")}                                                      })
-```
 ```{r}
 #Glimpse on Dataset we used
 head(cars)
@@ -241,14 +262,13 @@ It can even include graphical elements.
 ```{r}
 hist(cars$speed)
 ```'),
-                                             actionButton("eval", "Run")
-                                             ),
-                                         div(class="span6",
-                                             h2("Knitted Output"),
-                                             htmlOutput("knitDoc")
+                                          actionButton("eval", "Run")
+                                          )),  
+                                   column(6,
+                                          h2("Knitted Output"),
+                                          htmlOutput("knitDoc")
                                          )
-                                         )
-                                         ))
+                                 )
                         )
             )
     ),

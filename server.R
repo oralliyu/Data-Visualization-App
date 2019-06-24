@@ -29,6 +29,20 @@ shinyServer(function(input, output, session) {
     }
   )
   
+  output$Previewcar<-
+    renderTable({
+      head(cars, 4)
+    }, striped = TRUE, hover=TRUE, bordered = TRUE, spacing = 'xs')
+  
+  output$Previewtree<-
+    renderTable({
+      head(trees, 4)
+    }, striped = TRUE, hover=TRUE, bordered = TRUE, spacing = 'xs')
+  
+  output$Previewiris<-
+    renderTable({
+      head(iris, 4)
+    }, striped = TRUE, hover=TRUE, bordered = TRUE, spacing = 'xs')
   ###KNITR
   output$knitDoc <- renderUI({
     input$eval
