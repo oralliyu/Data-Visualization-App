@@ -125,10 +125,10 @@ body = dashboardBody(
                                      conditionalPanel(
                                        condition="input.previewData==1",
                                        fluidRow(
-                                         column(1, p(strong("Dataset cars"))),
-                                         column(5, tableOutput("Previewcar")),
-                                         column(1, p(strong("Dataset trees"))),
-                                         column(5, tableOutput("Previewtree"))
+                                         column(2, p(strong("Dataset cars"))),
+                                         column(4, tableOutput("Previewcar")),
+                                         column(2, p(strong("Dataset trees"))),
+                                         column(4, tableOutput("Previewtree"))
                                        )
                                      ),
                                      fluidRow(
@@ -204,7 +204,7 @@ body = dashboardBody(
                                      conditionalPanel(
                                        condition="input.previewDataTwo==1",
                                        fluidRow(
-                                         column(1, p(strong("Dataset iris"))),
+                                         column(2, p(strong("Dataset iris"))),
                                          column(5, tableOutput("Previewiris"))
                                        )
                                        #tableOutput("Previewiris")
