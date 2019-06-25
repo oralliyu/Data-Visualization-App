@@ -1,0 +1,6 @@
+﻿ID,question,A,B,C,Answer
+1,How to create a blue regression line in ggplot,"geom_smooth(method=lm, color=""red"")","geom_smooth(method=lm, fill=""blue"")","geom_smooth(method=lm, color=""blue"")",C
+2,How to create a dashed line graph with ggplot,"ggplot()+geom_line(linetype=""dashed"")",ggplot()+geom_histogram(),ggplot()+geom_boxplot(notch=T),A
+3,"If no bins specified, how many bins will be created in a histogram in ggplot",15,25,30,C
+4,How to add vertical line in ggplot,geom_hline(),geom_vline(),geom_line(),B
+5,How to set x-axis range in ggplot between -100 and 100,"scale_x_continuous(limits=c(-100, 100))","scale_x_continuous(-100, 100)","scale_X_continuous(-100, 100)",A

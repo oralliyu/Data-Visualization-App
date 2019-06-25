@@ -17,10 +17,20 @@ library(knitr)
 library(rmarkdown)
 library(shinyAce)
 
+bank <- read.csv("questionbank.csv")
+bank = data.frame(lapply(bank, as.character), stringsAsFactors = FALSE)
+
+
 shinyServer(function(input, output, session) {
   output$markdown <- renderUI({
     HTML(markdown::markdownToHTML(knit('test.Rmd', quiet = TRUE)))
   })
+  
+  observeEvent(input$nextq, {
+    updateButton(session, "submit", disabled = FALSE)
+    updateButton(session, "nextq", disabled = TRUE)
+  })
+  
   ###download pdf of data
   output$downloadData <- downloadHandler(
     filename = "Preview of Data.pdf",
@@ -81,8 +91,6 @@ shinyServer(function(input, output, session) {
   observeEvent(input$next2, {
     updateTabsetPanel(session, 'VisualOne', selected = 'panel2')
   })
-  
-  
   
   ############ Data Visualization ############
   ###########One Single Variable Plot##############
@@ -587,6 +595,33 @@ shinyServer(function(input, output, session) {
       ggtitle('Boxplot')", seq='')
   })
   
+  
+  ###########Exercises Part###################
+  #### question bank ####
+  output$question <- renderUI({
+    if(value$index == 1){
+      h3(bank[1,2])
+    }
+    else if(value$index == 2){
+      h3(bank[2,2])
+    }
+    else if(value$index == 3){
+      h3(bank[3,2])
+    }
+    else if(value$index == 4){
+      h3(bank[4,2])
+    }
+    else if(value$index == 5){
+      h3(bank[5,2])
+    }
+  })
+  
+  
+  
+  
+  
+  
+  
   ###### Maps ######
   #a. usMap
   output$usMapOut1 <- renderPlot({
@@ -642,19 +677,6 @@ shinyServer(function(input, output, session) {
     p
   })
   
-  # #b. worldMap
-  # output$worldMapOut1 <- renderPlot ({
-  #   gdpData <- gdpData %>% mutate(GDPOption = ntiles(-GDP, input$worldMap1, format = "rank"))
-  #   mWorldMap(gdpData, key = "country", fill = "GDPOption")
-  # })
-  # 
-  # output$worldMapCode1 <- renderUI ({
-  #   tags$code('gdpData <- gdpData %>% mutate(GDPOption = ntiles(-GDP,', input$worldMap1, ', format = "rank"))')
-  # })
-  # 
-  # output$worldMapCode2 <- renderUI ({
-  #   tags$code('mWorldMap(gdpData, key = "country", fill = "GDPOption")')
-  # })
   
   ###### 3D Plots ######
   #a. Normal Simulation via Plotly
@@ -667,20 +689,6 @@ shinyServer(function(input, output, session) {
     tags$code('plot_ly(x = rnorm(', input$Exsel1, '), y = rnorm(', input$Exsel1, '), z = rnorm(', input$Exsel1, '), type = "scatter3d", mode = "markers")')
   })
   
-  # output$plotly1 <- renderPlotly ({
-  #   if (input$Exsel == 'Scatter Plot') {
-  #     plot_ly(x = rnorm(input$Exsel1), y = rnorm(input$Exsel1), z = rnorm(input$Exsel1), 
-  #             type = 'scatter3d', mode = 'markers')
-  #   }
-  #   else if (input$Exsel == 'Line Plot') {
-  #     plot_ly(x = rnorm(input$Exsel1), y = rnorm(input$Exsel1), z = rnorm(input$Exsel1), 
-  #             type = 'scatter3d', mode = 'lines') 
-  #   }
-  #   else {
-  #     plot_ly(x = rnorm(input$Exsel1), y = rnorm(input$Exsel1), z = rnorm(input$Exsel1), 
-  #             type = 'mesh3d', mode = 'markers') 
-  #   }
-  # })
   
   output$hover <- renderPrint({
     dataHover <- event_data("plotly_hover")

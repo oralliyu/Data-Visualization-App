@@ -241,26 +241,35 @@ body = dashboardBody(
                                  fluidRow(
                                    column(6,
                                           verticalLayout(
-                                          h4("Problem Set Goes Here!!!"),
-                                          h4("Problem Set Goes Here!!!"),
-                                          h4("Problem Set Goes Here!!!"),
+                                            br(),
+                                            wellPanel(style = "background-color: #EAF2F8",
+                                                      uiOutput("question"),
+                                                      tags$style(type='text/css', '#question {font-weight:bold;font-size: 20px;
+                                                                 background-color: #EAF2F8;color: black;}',
+                                                                 '.well { padding: 12px; margin-bottom: 15px; max-width: 1000px; }')
+                                                      
+                                            ),
+                                          fluidPage(
+                                          column(3,
+                                                 bsButton(inputId = 'submit', label = 'Submit', style= 'danger')
+                                          ),
+                                          column(3,
+                                                 bsButton(inputId = "nextq",label = "Next", style= 'danger')
+                                          )),
+                                          br(),
                                           h2("Source R-Markdown"),  
                                           aceEditor("rmd", mode="markdown", value='### Sample knitr Doc
 This is some markdown text. It may also have embedded R code
-which will be executed.
+which will be executed. Please also read the output message for more hints.
 ```{r}
-#Glimpse on Dataset we used
-head(cars)
-head(trees)
-head(iris)
-```
-
-```{r}
-
+#structure on datasets we used in previous
+str(cars)
+str(trees)
+str(iris)
 ```
 It can even include graphical elements.
 ```{r}
-hist(cars$speed)
+ggplot(aes(x=dist), data=cars)+ geom_histogram()
 ```'),
                                           actionButton("eval", "Run")
                                           )),  
