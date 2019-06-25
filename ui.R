@@ -242,11 +242,12 @@ body = dashboardBody(
                                    column(6,
                                           verticalLayout(
                                             br(),
-                                            wellPanel(style = "background-color: #EAF2F8",
+                                            wellPanel(style = "background-color: #eaf8eb",
                                                       uiOutput("question"),
-                                                      tags$style(type='text/css', '#question {font-weight:bold;font-size: 20px;
-                                                                 background-color: #EAF2F8;color: black;}',
-                                                                 '.well { padding: 12px; margin-bottom: 15px; max-width: 1000px; }')
+                                                      textOutput("mark"),
+                                                      tags$style(type='text/css', '#question{font-size: 15px;
+                                                                 background-color: #eaf8eb;color: black;}',
+                                                                 '.well { padding: 10px; margin-bottom: 15px; max-width: 1000px; }')
                                                       
                                             ),
                                           fluidPage(

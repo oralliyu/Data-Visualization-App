@@ -26,6 +26,14 @@ shinyServer(function(input, output, session) {
     HTML(markdown::markdownToHTML(knit('test.Rmd', quiet = TRUE)))
   })
   
+  observeEvent(input$submit, {
+    updateButton(session, "nextq", disabled = FALSE)
+  })
+  
+  observeEvent(input$submit, {
+    updateButton(session, "submit", disabled = TRUE)
+  })
+  
   observeEvent(input$nextq, {
     updateButton(session, "submit", disabled = FALSE)
     updateButton(session, "nextq", disabled = TRUE)
@@ -597,30 +605,33 @@ shinyServer(function(input, output, session) {
   
   
   ###########Exercises Part###################
+  value <- reactiveValues(index =  1, mistake = 0,correct = 0)
+  ans <- as.matrix(bank[1:5,6])
+  ans <- data.frame(ans)
+  index_list<-reactiveValues(list=sample(2:5,4,replace=FALSE))
   #### question bank ####
-  output$question <- renderUI({
-    if(value$index == 1){
-      h3(bank[1,2])
-    }
-    else if(value$index == 2){
-      h3(bank[2,2])
-    }
-    else if(value$index == 3){
-      h3(bank[3,2])
-    }
-    else if(value$index == 4){
-      h3(bank[4,2])
-    }
-    else if(value$index == 5){
-      h3(bank[5,2])
-    }
+    output$question <- renderUI({
+      radioButtons(inputId = bank[value$index,1], label= bank[value$index, 2], 
+                   choiceNames=c(bank[value$index, 3], bank[value$index, 4], bank[value$index, 5]), 
+                   choiceValues = c("A", "B", "C"), selected = "A")
   })
   
+  observeEvent(input$nextq,{
+    index_list$list=index_list$list[-1]   
+    value$index<-index_list$list[1]
+    value$answerbox<-value$index
+    
+    if(length(index_list$list) == 0){
+      updateButton(session, "nextq", disabled = TRUE)
+      updateButton(session,"submit", disabled = TRUE)
+    }
+    
+  })
   
-  
-  
-  
-  
+  observeEvent(input$submit,{ 
+    output$mark<-renderText({
+    })
+  })
   
   ###### Maps ######
   #a. usMap
