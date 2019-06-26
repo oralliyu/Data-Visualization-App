@@ -26,19 +26,6 @@ shinyServer(function(input, output, session) {
     HTML(markdown::markdownToHTML(knit('test.Rmd', quiet = TRUE)))
   })
   
-  observeEvent(input$submit, {
-    updateButton(session, "nextq", disabled = FALSE)
-  })
-  
-  observeEvent(input$submit, {
-    updateButton(session, "submit", disabled = TRUE)
-  })
-  
-  observeEvent(input$nextq, {
-    updateButton(session, "submit", disabled = FALSE)
-    updateButton(session, "nextq", disabled = TRUE)
-  })
-  
   ###download pdf of data
   output$downloadData <- downloadHandler(
     filename = "Preview of Data.pdf",
@@ -605,18 +592,33 @@ shinyServer(function(input, output, session) {
   
   
   ###########Exercises Part###################
+  observeEvent(input$submit, {
+    updateButton(session, "nextq", disabled = FALSE)
+  })
+  
+  observeEvent(input$submit, {
+    updateButton(session, "submit", disabled = TRUE)
+  })
+  
+  observeEvent(input$nextq, {
+    updateButton(session, "submit", disabled = FALSE)
+    updateButton(session, "nextq", disabled = TRUE)
+    updateSelectInput(session,"answer", "pick an answer from below", c("","A", "B", "C"))
+    output$mark <- renderUI({
+      img(src = NULL,width = 30)
+    })
+  })
+  
+  
+  #### question bank ####
   value <- reactiveValues(index =  1, mistake = 0,correct = 0)
+  
   ans <- as.matrix(bank[1:5,6])
   ans <- data.frame(ans)
   index_list<-reactiveValues(list=sample(2:5,4,replace=FALSE))
-  #### question bank ####
-    output$question <- renderUI({
-      radioButtons(inputId = bank[value$index,1], label= bank[value$index, 2], 
-                   choiceNames=c(bank[value$index, 3], bank[value$index, 4], bank[value$index, 5]), 
-                   choiceValues = c("A", "B", "C"), selected = "A")
-  })
   
   observeEvent(input$nextq,{
+    value$answerbox <- value$index
     index_list$list=index_list$list[-1]   
     value$index<-index_list$list[1]
     value$answerbox<-value$index
@@ -628,8 +630,22 @@ shinyServer(function(input, output, session) {
     
   })
   
+  output$question <- renderUI({
+    radioButtons(inputId = bank[value$index,1], label= bank[value$index, 2], 
+                 choiceNames=c(bank[value$index, 3], bank[value$index, 4], bank[value$index, 5]), 
+                 choiceValues = c("A", "B", "C"))
+  })
+  
   observeEvent(input$submit,{ 
-    output$mark<-renderText({
+    output$mark <- renderUI({
+      if (!is.null(input$answer)){
+        if (any(input$answer == ans[value$answerbox,1])){
+          img(src = "correct.png",width = 30)
+        }
+        else{
+          img(src = "incorrect.png",width = 30)
+        }
+      }
     })
   })
   

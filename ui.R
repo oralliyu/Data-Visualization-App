@@ -242,20 +242,21 @@ body = dashboardBody(
                                    column(6,
                                           verticalLayout(
                                             br(),
-                                            wellPanel(style = "background-color: #eaf8eb",
+                                            wellPanel(style = "background-color: #b8f28c",
                                                       uiOutput("question"),
-                                                      textOutput("mark"),
+                                                      selectInput("answer", "pick an answer from below", c("","A", "B", "C")),
+                                                      uiOutput("mark"),
                                                       tags$style(type='text/css', '#question{font-size: 15px;
-                                                                 background-color: #eaf8eb;color: black;}',
+                                                                 background-color: #b8f28c;color: black;}',
                                                                  '.well { padding: 10px; margin-bottom: 15px; max-width: 1000px; }')
                                                       
                                             ),
                                           fluidPage(
                                           column(3,
-                                                 bsButton(inputId = 'submit', label = 'Submit', style= 'danger')
+                                                 actionButton(inputId = 'submit', label = 'Submit')
                                           ),
                                           column(3,
-                                                 bsButton(inputId = "nextq",label = "Next", style= 'danger')
+                                                 bsButton(inputId = "nextq",label = "Next")
                                           )),
                                           br(),
                                           h2("Source R-Markdown"),  
