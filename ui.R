@@ -242,8 +242,11 @@ body = dashboardBody(
                                    column(6,
                                           verticalLayout(
                                             br(),
+                                            uiOutput('progress'),
                                             wellPanel(style = "background-color: #b8f28c",
                                                       uiOutput("question"),
+                                                      uiOutput("options"),
+                                                      br(),
                                                       selectInput("answer", "pick an answer from below", c("","A", "B", "C")),
                                                       uiOutput("mark"),
                                                       tags$style(type='text/css', '#question{font-size: 15px;
@@ -252,11 +255,17 @@ body = dashboardBody(
                                                       
                                             ),
                                           fluidPage(
+                                            tags$head(
+                                              tags$style(HTML('#submit{background-color:#c68cf2; color:white}'))
+                                            ),
                                           column(3,
-                                                 actionButton(inputId = 'submit', label = 'Submit')
+                                                 actionButton(inputId = 'submit', label = 'Submit', style="success")
                                           ),
                                           column(3,
-                                                 bsButton(inputId = "nextq",label = "Next")
+                                                 bsButton(inputId = "nextq",label = "Next", style='warning')
+                                          ),
+                                          column(3,
+                                                 bsButton(inputId = "reset",label = "Restart", style="danger", disabled = TRUE)
                                           )),
                                           br(),
                                           h2("Source R-Markdown"),  

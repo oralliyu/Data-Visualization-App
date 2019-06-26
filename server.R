@@ -592,17 +592,17 @@ shinyServer(function(input, output, session) {
   
   
   ###########Exercises Part###################
-  observeEvent(input$submit, {
-    updateButton(session, "nextq", disabled = FALSE)
-  })
-  
-  observeEvent(input$submit, {
-    updateButton(session, "submit", disabled = TRUE)
-  })
+  # observeEvent(input$submit, {
+  #   updateButton(session, "nextq", disabled = FALSE)
+  # })
+  # 
+  # observeEvent(input$submit, {
+  #   updateButton(session, "submit", disabled = TRUE)
+  # })
   
   observeEvent(input$nextq, {
-    updateButton(session, "submit", disabled = FALSE)
-    updateButton(session, "nextq", disabled = TRUE)
+    # updateButton(session, "submit", disabled = FALSE)
+    # updateButton(session, "nextq", disabled = TRUE)
     updateSelectInput(session,"answer", "pick an answer from below", c("","A", "B", "C"))
     output$mark <- renderUI({
       img(src = NULL,width = 30)
@@ -612,41 +612,71 @@ shinyServer(function(input, output, session) {
   
   #### question bank ####
   value <- reactiveValues(index =  1, mistake = 0,correct = 0)
-  
-  ans <- as.matrix(bank[1:5,6])
-  ans <- data.frame(ans)
-  index_list<-reactiveValues(list=sample(2:5,4,replace=FALSE))
+  ans <- as.matrix(bank[1:14,6])
+  #ans <- data.frame(ans)
+  index_list<-reactiveValues(list=sample(2:14,13,replace=FALSE))
   
   observeEvent(input$nextq,{
     value$answerbox <- value$index
     index_list$list=index_list$list[-1]   
     value$index<-index_list$list[1]
     value$answerbox<-value$index
-    
-    if(length(index_list$list) == 0){
-      updateButton(session, "nextq", disabled = TRUE)
-      updateButton(session,"submit", disabled = TRUE)
-    }
-    
+
+    updateButton(session, "nextq", disabled = TRUE)
+    updateButton(session,"submit", disabled = FALSE)
   })
   
   output$question <- renderUI({
-    radioButtons(inputId = bank[value$index,1], label= bank[value$index, 2], 
-                 choiceNames=c(bank[value$index, 3], bank[value$index, 4], bank[value$index, 5]), 
-                 choiceValues = c("A", "B", "C"))
+    h4(bank[value$index, 2])
+    # radioButtons(inputId = bank[value$index,1], label= bank[value$index, 2], 
+    #              choiceNames=c(bank[value$index, 3], bank[value$index, 4], bank[value$index, 5]), 
+    #              choiceValues = c("A", "B", "C"))
   })
   
-  observeEvent(input$submit,{ 
+  output$options <- renderUI({
+    str1 <- paste("A.", bank[value$index, 3])
+    str2 <- paste("B.", bank[value$index, 4])
+    str3 <- paste("C.", bank[value$index, 5])
+    HTML(paste(str1, str2, str3, sep = '<br/>'))
+    })
+    
+    
+  observeEvent(input$submit,{
+    if(length(index_list$list) == 1){
+      updateButton(session, "nextq", disabled = TRUE)
+      updateButton(session,"submit", disabled = TRUE)
+      updateButton(session, "reset", disabled = FALSE)
+    }
+    else{
+      updateButton(session, "nextq", disabled = FALSE)
+      updateButton(session,"submit", disabled = TRUE)
+    }
+    output$progress<-renderUI({
+      paste("Your are currently on problem", 14-length(index_list$list), "/13")
+    })
+    
     output$mark <- renderUI({
-      if (!is.null(input$answer)){
-        if (any(input$answer == ans[value$answerbox,1])){
+        if (any(input$answer == ans[value$index,1])){
           img(src = "correct.png",width = 30)
         }
         else{
           img(src = "incorrect.png",width = 30)
         }
-      }
     })
+  })
+  
+  observeEvent(input$reset,{
+    updateButton(session, "submit", disabled = FALSE)
+    updateButton(session,"reset",disable =TRUE)
+    updateSelectInput(session,"answer", "pick an answer from below", c("","A", "B", "C"))
+    index_list$list<-c(index_list$list,sample(2:14,13,replace=FALSE))
+    value$index <- 14
+    value$answerbox = value$index
+    ans <- as.matrix(bank[1:14,6])
+    output$mark <- renderUI({
+      img(src = NULL,width = 30)
+    })
+    
   })
   
   ###### Maps ######
