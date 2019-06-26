@@ -58,10 +58,9 @@ body = dashboardBody(
                          icon = icon('bolt'), size = 'large', class='circle grow')),
             br(),
             h3(strong('Acknowledgements:')),
-            h4('This application was coded and developed by Anna (Yinqi) Zhang. Special Thanks to Grace (Yubaihe) Zhou for being incredibly helpful with programming issues.'),
-            h4('The cheat sheet is provided by RStudio.'),
-            h4('Packages used: dplyr, EDAWR, ggmap, mosaic, plotly, ggplot2, plot3D.'),
-            h4('The Protein-Protein Interaction Dataset is from the Warwick University - Molecular Organisation and Assembly in Cells.')
+            h4('This application was coded and developed by Anna (Yinqi) Zhang in 2018 and Yiyun Gong in 2019. 
+               Special Thanks to Grace (Yubaihe) Zhou for being incredibly helpful with programming issues.'),
+            h4('Packages used: dplyr, EDAWR, ggmap, mosaic, plotly, ggplot2, plot3D.')
     ),
     
     ############ Data Visualization Introduction #######
