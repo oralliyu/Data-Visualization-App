@@ -651,8 +651,9 @@ shinyServer(function(input, output, session) {
       updateButton(session, "nextq", disabled = FALSE)
       updateButton(session,"submit", disabled = TRUE)
     }
+    
     output$progress<-renderUI({
-      paste("Your are currently on problem", 14-length(index_list$list), "/13")
+      paste("You are currently on problem", 14-length(index_list$list), "/13")
     })
     
     output$mark <- renderUI({
@@ -675,6 +676,9 @@ shinyServer(function(input, output, session) {
     ans <- as.matrix(bank[1:14,6])
     output$mark <- renderUI({
       img(src = NULL,width = 30)
+    })
+    output$progress<-renderUI({
+      paste("You are currently on problem", 15-length(index_list$list), "/13")
     })
     
   })

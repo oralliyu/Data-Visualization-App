@@ -232,7 +232,7 @@ body = dashboardBody(
                                  )
                                  ),
                         
-                        tabPanel(title='Exercise', value='panel2',
+                        tabPanel(title='Exercises', value='panel2',
                                  #uiOutput("urltest"))
                                  #includeMarkdown("test.Rmd")
                                  #system.file("knitr", package="shinyAce")
@@ -267,7 +267,7 @@ body = dashboardBody(
                                                  bsButton(inputId = "reset",label = "Restart", style="danger", disabled = TRUE)
                                           )),
                                           br(),
-                                          h2("Source R-Markdown"),  
+                                          h2("Try Your Code"),  
                                           aceEditor("rmd", mode="markdown", value='### Sample knitr Doc
 This is some markdown text. It may also have embedded R code
 which will be executed. Please also read the output message for more hints.
@@ -277,6 +277,10 @@ str(cars)
 str(trees)
 str(iris)
 ```
+feel free to play the code chuck, you can add a new code chuck with following method
+```{r}
+```
+
 It can even include graphical elements.
 ```{r}
 ggplot(aes(x=dist), data=cars)+ geom_histogram()
