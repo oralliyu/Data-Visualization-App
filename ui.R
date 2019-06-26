@@ -261,7 +261,7 @@ body = dashboardBody(
                                                  actionButton(inputId = 'submit', label = 'Submit', style="success")
                                           ),
                                           column(3,
-                                                 bsButton(inputId = "nextq",label = "Next", style='warning')
+                                                 bsButton(inputId = "nextq",label = "Next", style='warning', disabled = TRUE)
                                           ),
                                           column(3,
                                                  bsButton(inputId = "reset",label = "Restart", style="danger", disabled = TRUE)
