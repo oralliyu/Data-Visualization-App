@@ -674,14 +674,15 @@ shinyServer(function(input, output, session) {
     updateButton(session,"reset",disable =TRUE)
     updateSelectInput(session,"answer", "pick an answer from below", c("","A", "B", "C"))
     index_list$list<-c(index_list$list,sample(2:14,13,replace=FALSE))
-    value$index <- 14
+    value$index <- 1
     value$answerbox = value$index
     ans <- as.matrix(bank[1:14,6])
     output$mark <- renderUI({
       img(src = NULL,width = 30)
     })
     output$progress<-renderUI({
-      paste("You are currently on problem", 15-length(index_list$list), "/13")
+      #paste("You are currently on problem", 15-length(index_list$list), "/13")
+      NULL
     })
     
   })

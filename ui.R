@@ -239,12 +239,23 @@ body = dashboardBody(
                                  fluidRow(
                                    column(6,
                                           verticalLayout(
-                                            h3(strong("Exercises")),
-                                            h4("You can try the following questions and test your code with the following R script 
-                                               box with the RMarkDown output on the right side after you click the run button below the code box 
-                                               to test your understanding. Each turn 13 questions will be randomly draw from the question bank. 
-                                               You can restart the question session before you finish up all 13 problems."),
+                                            h2("Instructions"),
+                                            wellPanel(
+                                              style = "background-color: #9ff28c",
+                                            tags$div(tags$ul(
+                                              tags$li("You can try the following questions"),
+                                              tags$li("Test your code with the following R script
+                                             box with the RMarkDown output on the right side"),
+                                              tags$li("In each turn, 13 questions will be randomly draw from the question bank."),
+                                              tags$li("You can restart the question session after all 13 problems are finished.")),
+                                              style = "background-color: #9ff28c")),
+                                            # wellPanel(
+                                            #   style = "background-color: #9ff28c",
+                                            #   tags$div(tags$ul(
+                                            #     
+                                            # ))),
                                             br(),
+                                            h2("Exercises"),
                                             uiOutput('progress'),
                                             wellPanel(style = "background-color: #b8f28c",
                                                       uiOutput("question"),
