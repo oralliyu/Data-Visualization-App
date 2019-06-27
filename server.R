@@ -656,12 +656,15 @@ shinyServer(function(input, output, session) {
       paste("You are currently on problem", 14-length(index_list$list), "/13")
     })
     
+    answer<-isolate(input$answer)
     output$mark <- renderUI({
-        if (any(input$answer == ans[value$index,1])){
+        if (any(answer == ans[value$index,1])){
           img(src = "correct.png",width = 30)
         }
         else{
-          img(src = "incorrect.png",width = 30)
+          ig<-img(src = "incorrect.png",width = 30)
+          w<-paste("You picked", answer, ", The correct answer is", ans[value$index, 1])
+          HTML(paste(ig, w), sep = ' ')
         }
     })
   })

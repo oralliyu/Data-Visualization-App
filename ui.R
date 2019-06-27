@@ -37,7 +37,6 @@ body = dashboardBody(
   tags$style(type = "text/css", ".content-wrapper,.right-side {background-color: white;}"),
   
   useShinyjs(),
-  
   tabItems(
     tabItem(tabName = 'overview',
             tags$a(href='http://stat.psu.edu/', tags$img(src = 'psu_icon.jpg', align = "left", width = 180)),
@@ -240,6 +239,11 @@ body = dashboardBody(
                                  fluidRow(
                                    column(6,
                                           verticalLayout(
+                                            h3(strong("Exercises")),
+                                            h4("You can try the following questions and test your code with the following R script 
+                                               box with the RMarkDown output on the right side after you click the run button below the code box 
+                                               to test your understanding. Each turn 13 questions will be randomly draw from the question bank. 
+                                               You can restart the question session before you finish up all 13 problems."),
                                             br(),
                                             uiOutput('progress'),
                                             wellPanel(style = "background-color: #b8f28c",
@@ -268,7 +272,7 @@ body = dashboardBody(
                                           )),
                                           br(),
                                           h2("Try Your Code"),  
-                                          aceEditor("rmd", mode="markdown", value='### Sample knitr Doc
+                                          aceEditor("rmd", mode="markdown", value='
 This is some markdown text. It may also have embedded R code
 which will be executed. Please also read the output message for more hints.
 ```{r}
@@ -277,7 +281,7 @@ str(cars)
 str(trees)
 str(iris)
 ```
-feel free to play the code chuck, you can add a new code chuck with following method
+feel free to play with the code chuck, you can add a new code chuck with following two lines
 ```{r}
 ```
 
