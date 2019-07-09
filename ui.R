@@ -84,6 +84,12 @@ body = dashboardBody(
                                  br(),
                                  sidebarLayout(
                                    sidebarPanel(
+                                     id="sidebar",
+                                     tags$head(tags$style(
+                                       HTML('#sidebar{
+                                                background-color: #b8f28c;
+                                            }')
+                                     )),
                                      ####select between plot and ggplot
                                      selectInput(inputId="plotType", label="select Plot Type",
                                                  choices = c('plot', 'ggplot'),
@@ -112,7 +118,7 @@ body = dashboardBody(
                                      #tags$img(src="DataView.pdf")
                                      #includeHTML("ViewData.nb.html")
                                      #tags$a(tags$img(src="pdficon.png"), href="DataView.pdf", download="Viewdata.pdf")
-                                     br(),
+                                     # br(),
                                      #downloadLink("downloadData", "Preview of Data"),
                                      
                                        checkboxInput("previewData", "Preview of Datasets")
@@ -175,6 +181,12 @@ body = dashboardBody(
                                  br(),
                                  sidebarLayout(
                                    sidebarPanel(
+                                     id="sidebar",
+                                     tags$head(tags$style(
+                                       HTML('#sidebar{
+                                                background-color: #b8f28c;
+                                            }')
+                                     )),
                                      ####select continuous variable 1
                                      selectInput(inputId="continuous1", 
                                                  label="Select First Continuous Variable as X:",
@@ -192,7 +204,7 @@ body = dashboardBody(
                                                  label="Select Categorical Variable:",
                                                  choices= 'Species',
                                                  selected = 'Species'),
-                                     br(),
+                                     
                                      checkboxInput("previewDataTwo", "Preview of Datasets")
                                      
                                      
@@ -543,11 +555,7 @@ ggplot(aes(x=dist), data=cars)+ geom_histogram()
                                      )
                                    )
                                  )
-                        )#, comment a , here
-                        # 
-                        # tabPanel('Mosaic Plots'),
-                        # 
-                        # tabPanel('Bar Graph & Histogram')
+                        )
             )
     )
     
