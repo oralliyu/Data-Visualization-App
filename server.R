@@ -16,23 +16,79 @@ library(learnr)
 library(knitr)
 library(rmarkdown)
 library(shinyAce)
+library(rlocker)
 
 bank <- read.csv("questionbank.csv")
 bank = data.frame(lapply(bank, as.character), stringsAsFactors = FALSE)
 
 
 shinyServer(function(input, output, session) {
-  output$markdown <- renderUI({
-    HTML(markdown::markdownToHTML(knit('test.Rmd', quiet = TRUE)))
-  })
+  # output$markdown <- renderUI({
+  #   HTML(markdown::markdownToHTML(knit('test.Rmd', quiet = TRUE)))
+  # })
   
   ###download pdf of data
-  output$downloadData <- downloadHandler(
-    filename = "Preview of Data.pdf",
-    content = function(file) {
-      file.copy("www/DataView.pdf", file)
-    }
-  )
+  # output$downloadData <- downloadHandler(
+  #   filename = "Preview of Data.pdf",
+  #   content = function(file) {
+  #     file.copy("www/DataView.pdf", file)
+  #   }
+  # )
+  
+  # output$urltest <- renderUI({
+  #   tags$iframe(src="https://yvngong.shinyapps.io/test/", width="100%", height = 700)
+  # })
+  
+  
+  ##############rlocker test part########
+  # Initialize Learning Locker connection
+  connection <- rlocker::connect(session, list(
+    base_url = "https://learning-locker.stat.vmhost.psu.edu/",
+    auth = "Basic ZDQ2OTNhZWZhN2Q0ODRhYTU4OTFmOTlhNWE1YzBkMjQxMjFmMGZiZjo4N2IwYzc3Mjc1MzU3MWZkMzc1ZDliY2YzOTNjMGZiNzcxOThiYWU2",
+    agent = rlocker::createAgent()
+  ))
+  
+  # Setup demo app and user.
+  currentUser <- 
+    connection$agent
+  #What is statement here
+  #Bind question input items to observers
+  registerQuestionEvents <- function(session, questions){
+    observe({
+      sapply(questions, function (question) {
+        observeEvent(session$input[[question$id]], {
+          statement <- rlocker::createStatement(
+            list(
+              verb = list(
+                display = "answered"
+              ),
+              object = list(
+                id = paste0(getCurrentAddress(session), "#", question$id),
+                name = question$title,
+                description = question$text
+              ),
+              result = list(
+                success = session$input[[question$id]] == question$answer,
+                response = session$input[[question$id]]
+              )
+            )
+          )
+          renderxAPIStatement(session, question, statement)
+          
+          # Store statement in locker and return status
+          status <- rlocker::store(session, statement)
+          
+          # Render status code popup notification
+          ifelse(
+            status == 200,
+            showNotification('Statement stored.', type = 'message'),
+            showNotification('Failed to store statement.', type = 'error')
+          )
+        })
+      })
+    })
+  }
+  ##############end#########
   
   output$Previewcar<-
     renderTable({
@@ -58,10 +114,6 @@ shinyServer(function(input, output, session) {
     input$eval
     return(isolate(eval(parse(text=input$code))))
   })  
-  
-  output$urltest <- renderUI({
-    tags$iframe(src="https://yvngong.shinyapps.io/test/", width="100%", height = 700)
-  })
   
   observeEvent(input$info0,{
     sendSweetAlert(
@@ -614,7 +666,7 @@ shinyServer(function(input, output, session) {
   value <- reactiveValues(index =  1, mistake = 0,correct = 0)
   ans <- as.matrix(bank[1:14,6])
   #ans <- data.frame(ans)
-  index_list<-reactiveValues(list=sample(2:14,13,replace=FALSE))
+  index_list<-reactiveValues(list=sample(1:14,10,replace=FALSE))
   
   observeEvent(input$nextq,{
     value$answerbox <- value$index
@@ -653,7 +705,7 @@ shinyServer(function(input, output, session) {
     }
     
     output$progress<-renderUI({
-      paste("You are currently on problem", 14-length(index_list$list), "/13")
+      paste("You are currently on problem", 11-length(index_list$list), "/10")
     })
     
     answer<-isolate(input$answer)
@@ -673,7 +725,7 @@ shinyServer(function(input, output, session) {
     updateButton(session, "submit", disabled = FALSE)
     updateButton(session,"reset",disable =TRUE)
     updateSelectInput(session,"answer", "pick an answer from below", c("","A", "B", "C"))
-    index_list$list<-c(index_list$list,sample(2:14,13,replace=FALSE))
+    index_list$list<-c(index_list$list,sample(1:14,10,replace=FALSE))
     value$index <- 1
     value$answerbox = value$index
     ans <- as.matrix(bank[1:14,6])
@@ -681,8 +733,7 @@ shinyServer(function(input, output, session) {
       img(src = NULL,width = 30)
     })
     output$progress<-renderUI({
-      #paste("You are currently on problem", 15-length(index_list$list), "/13")
-      NULL
+      p(NULL)
     })
     
   })

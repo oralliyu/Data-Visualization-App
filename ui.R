@@ -11,8 +11,9 @@ library(ggplot2)
 library(EDAWR)
 library(plot3D)
 library(ggmap)
-library(datasets)
+#library(datasets)
 library(shinyAce)
+library(rlocker)
 
 header = dashboardHeader(title = 'Data Visualization',
                          tags$li(class = "dropdown",
@@ -258,8 +259,8 @@ body = dashboardBody(
                                               tags$li("You can try the following questions"),
                                               tags$li("Test your code with the following R script
                                              box with the RMarkDown output on the right side"),
-                                              tags$li("In each turn, 13 questions will be randomly draw from the question bank."),
-                                              tags$li("You can restart the question session after all 13 problems are finished.")),
+                                              tags$li("In each turn, 10 questions will be randomly draw from the question bank."),
+                                              tags$li("You can restart the question session after all 10 problems are finished.")),
                                               style = "background-color: #9ff28c")),
                                             # wellPanel(
                                             #   style = "background-color: #9ff28c",
@@ -282,7 +283,8 @@ body = dashboardBody(
                                             ),
                                           fluidPage(
                                             tags$head(
-                                              tags$style(HTML('#submit{background-color:#c68cf2; color:white}'))
+                                              tags$style(HTML('#submit{background-color:#c68cf2; color:white}')),
+                                              tags$style(HTML('#eval{background-color:#141e7b; color:white}'))
                                             ),
                                           column(3,
                                                  actionButton(inputId = 'submit', label = 'Submit', style="success")
@@ -294,9 +296,15 @@ body = dashboardBody(
                                                  bsButton(inputId = "reset",label = "Restart", style="danger", disabled = TRUE)
                                           )),
                                           br(),
+                                          
+                                          ##########try rlocker statement#########
+                                          tags$samp(
+                                            htmlOutput("statements")
+                                          ),
+                                          ##########end#############
+                                          
                                           h2("Try Your Code"),  
-                                          aceEditor("rmd", mode="markdown", value='
-This is some markdown text. It may also have embedded R code
+                                          aceEditor("rmd", mode="markdown", value='This is some markdown text. It may also have embedded R code
 which will be executed. Please also read the output message for more hints.
 ```{r}
 #structure on datasets we used in previous
@@ -312,8 +320,10 @@ It can even include graphical elements.
 ```{r}
 ggplot(aes(x=dist), data=cars)+ geom_histogram()
 ```'),
-                                          actionButton("eval", "Run")
-                                          )),  
+                                          column(6,
+                                                 actionButton("eval", "Run"))
+                                          )),
+                                   br(),
                                    column(6,
                                           h2("Knitted Output"),
                                           htmlOutput("knitDoc")
