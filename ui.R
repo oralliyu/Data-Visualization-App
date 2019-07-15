@@ -45,13 +45,14 @@ body = dashboardBody(
             br(),
             br(),
             h3(strong('About:')),
-            h4('This app illustrates R code for data visulization'),
+            h4('This app illustrates R code for data visualization.'),
             br(),
             
             h3(strong('Instructions:')),
-            h4(tags$li('In the Data Visualization section, 
-                       go through each tab including 3D plots, line plots, contour plots, and heat maps.'))
-            ,
+            h4(tags$li("Simple data visualization section introduces
+                       how to create some common use plots with ggplot and Rplot with exercise at the end.")),
+            h4(tags$li("Advanced Data Visualization section
+                      introduces 3D plots, line plots, contour plots, and heat maps.")),
             br(),
             div(style = 'text-align: center', 
                 bsButton(inputId = 'go2', label = 'Explore', 
@@ -60,7 +61,7 @@ body = dashboardBody(
             h3(strong('Acknowledgements:')),
             h4('This application was coded and developed by Anna (Yinqi) Zhang in 2018 and Yiyun Gong in 2019. 
                Special Thanks to Grace (Yubaihe) Zhou for being incredibly helpful with programming issues.'),
-            h4('Packages used: dplyr, EDAWR, ggmap, mosaic, plotly, ggplot2, plot3D.')
+            h4('Packages used: EDAWR, ggmap, mosaic, plotly, ggplot2, plot3D, shinyAce.')
     ),
     
     ############ Data Visualization Introduction #######
@@ -78,7 +79,7 @@ body = dashboardBody(
                         ###### One Variable ######
                         tabPanel('Single Variable',
                                  h3(strong('One Variable Visualization')),
-                                 br(),
+                                 # br(),
                                  h4('This section illustrates R code for data 
                                     visulization includes plot() and ggplot() with one Variable'),
                                  
@@ -175,7 +176,7 @@ body = dashboardBody(
                         ###### Two Variable ######
                         tabPanel(title='Two Variables', value='panel2',
                                  h3(strong('Two Variables Visualization')),
-                                 br(),
+                                 # br(),
                                  h4('This section illustrates R code for data 
                                     visulization uses ggplot() with Two Variables'),
                                  
@@ -259,8 +260,9 @@ body = dashboardBody(
                                               tags$li("You can try the following questions"),
                                               tags$li("Test your code with the following R script
                                              box with the RMarkDown output on the right side"),
-                                              tags$li("In each turn, 10 questions will be randomly draw from the question bank."),
-                                              tags$li("You can restart the question session after all 10 problems are finished.")),
+                                              tags$li("In each turn, 10 questions will be randomly draw from the question bank.")
+                                              # tags$li("You can restart the question session after all 10 problems are finished.")
+                                              ),
                                               style = "background-color: #9ff28c")),
                                             # wellPanel(
                                             #   style = "background-color: #9ff28c",

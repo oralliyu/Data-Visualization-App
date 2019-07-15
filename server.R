@@ -23,23 +23,7 @@ bank = data.frame(lapply(bank, as.character), stringsAsFactors = FALSE)
 
 
 shinyServer(function(input, output, session) {
-  # output$markdown <- renderUI({
-  #   HTML(markdown::markdownToHTML(knit('test.Rmd', quiet = TRUE)))
-  # })
-  
-  ###download pdf of data
-  # output$downloadData <- downloadHandler(
-  #   filename = "Preview of Data.pdf",
-  #   content = function(file) {
-  #     file.copy("www/DataView.pdf", file)
-  #   }
-  # )
-  
-  # output$urltest <- renderUI({
-  #   tags$iframe(src="https://yvngong.shinyapps.io/test/", width="100%", height = 700)
-  # })
-  
-  
+  # registerQuestionEvents(session, bank)
   ##############rlocker test part########
   # Initialize Learning Locker connection
   connection <- rlocker::connect(session, list(
@@ -53,9 +37,8 @@ shinyServer(function(input, output, session) {
     connection$agent
   #What is statement here
   #Bind question input items to observers
-  registerQuestionEvents <- function(session, questions){
+  registerQuestionEvents <- function(session){
     observe({
-      sapply(questions, function (question) {
         observeEvent(session$input[[question$id]], {
           statement <- rlocker::createStatement(
             list(
@@ -86,10 +69,8 @@ shinyServer(function(input, output, session) {
           )
         })
       })
-    })
   }
   ##############end#########
-  
   output$Previewcar<-
     renderTable({
       head(cars, 4)
@@ -694,19 +675,19 @@ shinyServer(function(input, output, session) {
     
     
   observeEvent(input$submit,{
+    updateButton(session, "reset", disabled = FALSE)
     if(length(index_list$list) == 1){
       updateButton(session, "nextq", disabled = TRUE)
       updateButton(session,"submit", disabled = TRUE)
-      updateButton(session, "reset", disabled = FALSE)
     }
     else{
       updateButton(session, "nextq", disabled = FALSE)
       updateButton(session,"submit", disabled = TRUE)
     }
     
-    output$progress<-renderUI({
-      paste("You are currently on problem", 11-length(index_list$list), "/10")
-    })
+    # output$progress<-renderUI({
+    #   paste("You are currently on problem", 11-length(index_list$list), "/10")
+    # })
     
     answer<-isolate(input$answer)
     output$mark <- renderUI({
@@ -732,9 +713,9 @@ shinyServer(function(input, output, session) {
     output$mark <- renderUI({
       img(src = NULL,width = 30)
     })
-    output$progress<-renderUI({
-      p(NULL)
-    })
+    # output$progress<-renderUI({
+    #   p(NULL)
+    # })
     
   })
   
