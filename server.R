@@ -20,7 +20,7 @@ library(rlocker)
 
 bank <- read.csv("questionbank.csv")
 bank = data.frame(lapply(bank, as.character), stringsAsFactors = FALSE)
-
+source("helpers.R")
 
 shinyServer(function(input, output, session) {
   # registerQuestionEvents(session, bank)
@@ -86,15 +86,28 @@ shinyServer(function(input, output, session) {
       head(iris, 4)
     }, striped = TRUE, hover=TRUE, bordered = TRUE, spacing = 'xs')
   ###KNITR
+  
+  observeEvent(input$eval,{
+    withBusyIndicatorServer("eval",{
+      output$knitDoc <- renderUI({
+        return(isolate(HTML(knit2html(text = input$rmd, fragment.only = TRUE, quiet = FALSE))))
+      })
+      
+      output$output <- renderPrint({
+        return(isolate(eval(parse(text=input$code))))
+      })  
+    })
+  })
+  
   output$knitDoc <- renderUI({
     input$eval
     return(isolate(HTML(knit2html(text = input$rmd, fragment.only = TRUE, quiet = FALSE))))
   })
-  
+
   output$output <- renderPrint({
     input$eval
     return(isolate(eval(parse(text=input$code))))
-  })  
+  })
   
   observeEvent(input$info0,{
     sendSweetAlert(
@@ -713,10 +726,6 @@ shinyServer(function(input, output, session) {
     output$mark <- renderUI({
       img(src = NULL,width = 30)
     })
-    # output$progress<-renderUI({
-    #   p(NULL)
-    # })
-    
   })
   
   ###### Maps ######

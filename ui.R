@@ -14,6 +14,7 @@ library(ggmap)
 #library(datasets)
 library(shinyAce)
 library(rlocker)
+source("helpers.R")
 
 header = dashboardHeader(title = 'Data Visualization',
                          tags$li(class = "dropdown",
@@ -264,12 +265,6 @@ body = dashboardBody(
                                               # tags$li("You can restart the question session after all 10 problems are finished.")
                                               ),
                                               style = "background-color: #9ff28c")),
-                                            # wellPanel(
-                                            #   style = "background-color: #9ff28c",
-                                            #   tags$div(tags$ul(
-                                            #     
-                                            # ))),
-                                            br(),
                                             h2("Exercises"),
                                             uiOutput('progress'),
                                             wellPanel(style = "background-color: #b8f28c",
@@ -288,15 +283,25 @@ body = dashboardBody(
                                               tags$style(HTML('#submit{background-color:#c68cf2; color:white}')),
                                               tags$style(HTML('#eval{background-color:#141e7b; color:white}'))
                                             ),
-                                          column(3,
-                                                 actionButton(inputId = 'submit', label = 'Submit', style="success")
-                                          ),
-                                          column(3,
-                                                 bsButton(inputId = "nextq",label = "Next", style='warning', disabled = TRUE)
-                                          ),
-                                          column(3,
-                                                 bsButton(inputId = "reset",label = "Restart", style="danger", disabled = TRUE)
-                                          )),
+                                            fluidRow(
+                                              column(12, align="center",
+                                                     div(style="display: inline-block", actionButton(inputId = 'submit', label = 'Submit', style="success")),
+                                                     div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
+                                                     div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='warning', disabled = TRUE)),
+                                                     div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
+                                                     div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger", disabled = TRUE)))
+                                            )),
+                                          
+                                          
+                                          # column(3,
+                                          #        actionButton(inputId = 'submit', label = 'Submit', style="success")
+                                          # ),
+                                          # column(3,
+                                          #        bsButton(inputId = "nextq",label = "Next", style='warning', disabled = TRUE)
+                                          # ),
+                                          # column(3,
+                                          #        bsButton(inputId = "reset",label = "Restart", style="danger", )
+                                          # )),
                                           br(),
                                           
                                           ##########try rlocker statement#########
@@ -307,23 +312,36 @@ body = dashboardBody(
                                           
                                           h2("Try Your Code"),  
                                           aceEditor("rmd", mode="markdown", value='This is some markdown text. It may also have embedded R code
-which will be executed. Please also read the output message for more hints.
+which will be executed. Please also read the output 
+message for more hints.
+
+you can add a new code chuck with following two lines
 ```{r}
-#structure on datasets we used in previous
+```
+```{r}
+#structure on datasets we used in previous cases
 str(cars)
 str(trees)
 str(iris)
 ```
-feel free to play with the code chuck, you can add a new code chuck with following two lines
-```{r}
-```
-
 It can even include graphical elements.
 ```{r}
-ggplot(aes(x=dist), data=cars)+ geom_histogram()
-```'),
+#ggplot with one variable
+#ggplot(aes(x=dist), data=cars)+geom_histogram()
+```
+```{r}
+#ggplot with two variable
+#ggplot(aes(x=Sepal.Length, y=Petal.Length), data=iris)+
+#geom_line()
+```
+```{r}
+#Rplot with one variable
+plot(cars$speed)
+```
+'),
                                           column(6,
-                                                 actionButton("eval", "Run"))
+                                                 withBusyIndicatorUI(
+                                                 actionButton("eval", "Run")))
                                           )),
                                    br(),
                                    column(6,
