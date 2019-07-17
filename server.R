@@ -114,7 +114,7 @@ shinyServer(function(input, output, session) {
       session = session,
       title = "Instructions:",
       text = "Move the sliders or select from the dropdown menus and view the R code that produces the results.",
-      type = "info"
+      type = NULL
     )
   })
   observeEvent(input$info,{
@@ -122,7 +122,7 @@ shinyServer(function(input, output, session) {
       session = session,
       title = "Instructions:",
       text = "Move the sliders or select from the dropdown menus and view the R code that produces the results.",
-      type = "info"
+      type = NULL
     )
   })
   observeEvent(input$go2, {
