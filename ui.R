@@ -90,11 +90,11 @@ body = dashboardBody(
                                  sidebarLayout(
                                    sidebarPanel(
                                      id="sidebar",
-                                     # tags$head(tags$style(
-                                     #   HTML('#sidebar{
-                                     #            background-color: #b8f28c;
-                                     #        }')
-                                     # )),
+                                     tags$head(tags$style(
+                                       HTML('#sidebar{
+                                                background-color: #b8f28c;
+                                            }')
+                                     )),
                                      ####select between plot and ggplot
                                      selectInput(inputId="plotType", label="select Plot Type",
                                                  choices = c('plot', 'ggplot'),
@@ -187,11 +187,11 @@ body = dashboardBody(
                                  sidebarLayout(
                                    sidebarPanel(
                                      id="sidebar",
-                                     # tags$head(tags$style(
-                                     #   HTML('#sidebar{
-                                     #            background-color: #b8f28c;
-                                     #        }')
-                                     # )),
+                                     tags$head(tags$style(
+                                       HTML('#sidebar{
+                                                background-color: #b8f28c;
+                                            }')
+                                     )),
                                      ####select continuous variable 1
                                      selectInput(inputId="continuous1", 
                                                  label="Select First Continuous Variable as X:",
@@ -282,9 +282,9 @@ body = dashboardBody(
                                             ),
                                           fluidPage(
                                             tags$head(
-                                              tags$style(HTML('#submit{background-color:#1E7B14; color:white}')),
-                                              tags$style(HTML('#eval{background-color:#1E7B14; color:white}')),
-                                              tags$style(HTML('#nextq{background-color:#1E7B14; color:white}'))
+                                              tags$style(HTML('#submit{background-color:#5a992b; color:white}')),
+                                              tags$style(HTML('#eval{background-color:#5a992b; color:white}')),
+                                              tags$style(HTML('#nextq{background-color:#5a992b; color:white}'))
                                             ),
                                             fluidRow(
                                               column(12, align="center",
@@ -292,7 +292,7 @@ body = dashboardBody(
                                                      div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
                                                      div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", disabled = TRUE)),
                                                      div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
-                                                     div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger", disabled = TRUE)))
+                                                     div(style="display: inline-block", bsButton(inputId = "reset",label = "Restart", style="danger", disabled = TRUE)))
                                             )),
                                           
                                           

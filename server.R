@@ -20,6 +20,7 @@ library(rlocker)
 
 bank <- read.csv("questionbank.csv")
 bank = data.frame(lapply(bank, as.character), stringsAsFactors = FALSE)
+
 source("helpers.R")
 
 shinyServer(function(input, output, session) {
@@ -85,8 +86,8 @@ shinyServer(function(input, output, session) {
     renderTable({
       head(iris, 4)
     }, striped = TRUE, hover=TRUE, bordered = TRUE, spacing = 'xs')
-  ###KNITR
   
+  ###KNITR
   observeEvent(input$eval,{
     withBusyIndicatorServer("eval",{
       output$knitDoc <- renderUI({
@@ -688,14 +689,15 @@ shinyServer(function(input, output, session) {
     
     
   observeEvent(input$submit,{
-    updateButton(session, "reset", disabled = FALSE)
     if(length(index_list$list) == 1){
       updateButton(session, "nextq", disabled = TRUE)
       updateButton(session,"submit", disabled = TRUE)
+      updateButton(session, "reset", disabled = FALSE)
     }
     else{
       updateButton(session, "nextq", disabled = FALSE)
       updateButton(session,"submit", disabled = TRUE)
+      updateButton(session, "reset", disabled = FALSE)
     }
     
     # output$progress<-renderUI({
