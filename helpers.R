@@ -74,3 +74,28 @@ errorFunc <- function(err, buttonId) {
   shinyjs::html(html = errMessage, selector = errElMsg)
   shinyjs::show(selector = errEl, anim = TRUE, animType = "fade")
 }
+
+# Gets current page address from the current session
+getCurrentAddress <- function(session){
+  return(paste0(
+    session$clientData$url_protocol, "//",
+    session$clientData$url_hostname,
+    session$clientData$url_pathname, ":",
+    session$clientData$url_port,
+    session$clientData$url_search
+  ))
+}
+
+# Pulls corresponding answer values from question bank and returns its text
+getResponseText <- function(index, answer){
+
+  if(answer == 'A'){
+    key = 3
+  } else if(answer == 'B'){
+    key = 4
+  } else {
+    key = 5
+  }
+  
+  return(bank[index, key])
+}

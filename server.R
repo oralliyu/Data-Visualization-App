@@ -24,8 +24,7 @@ bank = data.frame(lapply(bank, as.character), stringsAsFactors = FALSE)
 source("helpers.R")
 
 shinyServer(function(input, output, session) {
-  # registerQuestionEvents(session, bank)
-  ##############rlocker test part########
+
   # Initialize Learning Locker connection
   connection <- rlocker::connect(session, list(
     base_url = "https://learning-locker.stat.vmhost.psu.edu/",
@@ -36,41 +35,11 @@ shinyServer(function(input, output, session) {
   # Setup demo app and user.
   currentUser <- 
     connection$agent
-  #What is statement here
-  #Bind question input items to observers
-  registerQuestionEvents <- function(session){
-    observe({
-        observeEvent(session$input[[question$id]], {
-          statement <- rlocker::createStatement(
-            list(
-              verb = list(
-                display = "answered"
-              ),
-              object = list(
-                id = paste0(getCurrentAddress(session), "#", question$id),
-                name = question$title,
-                description = question$text
-              ),
-              result = list(
-                success = session$input[[question$id]] == question$answer,
-                response = session$input[[question$id]]
-              )
-            )
-          )
-          renderxAPIStatement(session, question, statement)
-          
-          # Store statement in locker and return status
-          status <- rlocker::store(session, statement)
-          
-          # Render status code popup notification
-          ifelse(
-            status == 200,
-            showNotification('Statement stored.', type = 'message'),
-            showNotification('Failed to store statement.', type = 'error')
-          )
-        })
-      })
+  
+  if(connection$status != 200){
+   warning(paste(connection$status, "\nTry checking your auth token.")) 
   }
+  
   ##############end#########
   output$Previewcar<-
     renderTable({
@@ -705,6 +674,30 @@ shinyServer(function(input, output, session) {
     # })
     
     answer<-isolate(input$answer)
+    
+    statement <- rlocker::createStatement(
+      list(
+        verb = list(
+          display = "answered"
+        ),
+        object = list(
+          id = paste0(getCurrentAddress(session), "#", value$index),
+          name = paste('Question', value$index),
+          description = bank[value$index, 2]
+        ),
+        result = list(
+          success = any(answer == ans[value$index,1]),
+          response = paste(getResponseText(value$index, answer))
+        )
+      )
+    )
+    
+    # Store statement in locker and return status
+    status <- rlocker::store(session, statement)
+    
+    print(statement) # remove me
+    print(status) # remove me
+    
     output$mark <- renderUI({
         if (any(answer == ans[value$index,1])){
           img(src = "correct.png",width = 30)
