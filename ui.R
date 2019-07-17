@@ -14,6 +14,7 @@ library(ggmap)
 #library(datasets)
 library(shinyAce)
 library(rlocker)
+
 source("helpers.R")
 
 header = dashboardHeader(title = 'Data Visualization',
@@ -88,11 +89,11 @@ body = dashboardBody(
                                  sidebarLayout(
                                    sidebarPanel(
                                      id="sidebar",
-                                     tags$head(tags$style(
-                                       HTML('#sidebar{
-                                                background-color: #b8f28c;
-                                            }')
-                                     )),
+                                     # tags$head(tags$style(
+                                     #   HTML('#sidebar{
+                                     #            background-color: #b8f28c;
+                                     #        }')
+                                     # )),
                                      ####select between plot and ggplot
                                      selectInput(inputId="plotType", label="select Plot Type",
                                                  choices = c('plot', 'ggplot'),
@@ -185,11 +186,11 @@ body = dashboardBody(
                                  sidebarLayout(
                                    sidebarPanel(
                                      id="sidebar",
-                                     tags$head(tags$style(
-                                       HTML('#sidebar{
-                                                background-color: #b8f28c;
-                                            }')
-                                     )),
+                                     # tags$head(tags$style(
+                                     #   HTML('#sidebar{
+                                     #            background-color: #b8f28c;
+                                     #        }')
+                                     # )),
                                      ####select continuous variable 1
                                      selectInput(inputId="continuous1", 
                                                  label="Select First Continuous Variable as X:",
@@ -261,8 +262,8 @@ body = dashboardBody(
                                               tags$li("You can try the following questions"),
                                               tags$li("Test your code with the following R script
                                              box with the RMarkDown output on the right side"),
-                                              tags$li("In each turn, 10 questions will be randomly draw from the question bank.")
-                                              # tags$li("You can restart the question session after all 10 problems are finished.")
+                                              tags$li("In each turn, 10 questions will be randomly draw from the question bank."),
+                                              tags$li("Uncomment the sample code to start to explore.")
                                               ),
                                               style = "background-color: #9ff28c")),
                                             h2("Exercises"),
@@ -280,14 +281,15 @@ body = dashboardBody(
                                             ),
                                           fluidPage(
                                             tags$head(
-                                              tags$style(HTML('#submit{background-color:#c68cf2; color:white}')),
-                                              tags$style(HTML('#eval{background-color:#141e7b; color:white}'))
+                                              tags$style(HTML('#submit{background-color:#1E7B14; color:white}')),
+                                              tags$style(HTML('#eval{background-color:#1E7B14; color:white}')),
+                                              tags$style(HTML('#nextq{background-color:#1E7B14; color:white}'))
                                             ),
                                             fluidRow(
                                               column(12, align="center",
                                                      div(style="display: inline-block", actionButton(inputId = 'submit', label = 'Submit', style="success")),
                                                      div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
-                                                     div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", style='warning', disabled = TRUE)),
+                                                     div(style="display: inline-block", bsButton(inputId = "nextq",label = "Next", disabled = TRUE)),
                                                      div(style="display: inline-block;vertical-align:top; width: 30px;",HTML("<br>")),
                                                      div(style="display: inline-block", bsButton(inputId = "restart",label = "Restart", style="danger", disabled = TRUE)))
                                             )),
