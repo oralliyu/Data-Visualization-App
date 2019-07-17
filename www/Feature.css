@@ -24,10 +24,16 @@ font-size: 15px;
   background-color: #1E7B14;
   color:#FFFFFF;
 }
+
 .popover-title {
   color: #FFFFFF;
   background-color:#1E7B14;
 }
+.popover-content {
+color: #1C2C5B;
+font-size: 13px;
+}
+
 .btn-myClass {
     background-color: #000000;
     border: none;

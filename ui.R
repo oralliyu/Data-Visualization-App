@@ -13,6 +13,7 @@ library(plot3D)
 library(ggmap)
 #library(datasets)
 library(shinyAce)
+library(shinycssloaders)
 library(rlocker)
 
 source("helpers.R")
@@ -140,8 +141,8 @@ body = dashboardBody(
                                        )
                                      ),
                                      fluidRow(
-                                       column(6,plotOutput(outputId="oneDensity", width="100%",height="300px")),  
-                                       column(6,plotOutput(outputId="onehist", width="100%",height="300px"))
+                                       column(6,plotOutput(outputId="oneDensity", width="100%",height="300px")%>% withSpinner(color="#1E7B14")),  
+                                       column(6,plotOutput(outputId="onehist", width="100%",height="300px")%>% withSpinner(color="#1E7B14"))
                                      ),
                                      fluidRow(
                                        column(width = 6, textOutput(outputId="DensityoneCode")),
@@ -158,8 +159,8 @@ body = dashboardBody(
                                      
                                      
                                      fluidRow(
-                                       column(6,plotOutput(outputId="onebar", width="100%",height="300px")),  
-                                       column(6,plotOutput(outputId="oneqq", width="100%",height="300px"))
+                                       column(6,plotOutput(outputId="onebar", width="100%",height="300px")%>% withSpinner(color="#1E7B14")),  
+                                       column(6,plotOutput(outputId="oneqq", width="100%",height="300px")%>% withSpinner(color="#1E7B14"))
                                      ),
                                      fluidRow(
                                        column(width = 6, textOutput(outputId="BarCode")),
@@ -225,8 +226,8 @@ body = dashboardBody(
                                        #p("First four rows of dataset iris")
                                      ),
                                      fluidRow(
-                                       column(6,plotOutput(outputId="twoscatter")),
-                                       column(6,plotOutput(outputId="logTransformation"))
+                                       column(6,plotOutput(outputId="twoscatter")%>% withSpinner(color="#1E7B14")),
+                                       column(6,plotOutput(outputId="logTransformation")%>% withSpinner(color="#1E7B14"))
                                      ),
                                      br(),
                                      fluidRow(
@@ -235,8 +236,8 @@ body = dashboardBody(
                                      ),
                                      br(),
                                      fluidRow(
-                                       column(6,plotOutput(outputId="twobar")),
-                                       column(6,plotOutput(outputId="twobox"))
+                                       column(6,plotOutput(outputId="twobar")%>% withSpinner(color="#1E7B14")),
+                                       column(6,plotOutput(outputId="twobox")%>% withSpinner(color="#1E7B14"))
                                      ),
                                      br(),
                                      fluidRow(
