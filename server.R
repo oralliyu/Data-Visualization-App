@@ -656,7 +656,48 @@ shinyServer(function(input, output, session) {
     HTML(paste(str1, str2, str3, sep = '<br/>'))
     })
     
+  
+  observeEvent(input$answer,{
+    req(input$answer, input$answer!='')
+    answer<-isolate(input$answer)
+    interacted_statement <- rlocker::createStatement(
+      list(
+        verb = list(
+          display = "selected"
+        ),
+        object = list(
+          id = paste0(getCurrentAddress(session), "#", value$index),
+          name = paste('Question', value$index),
+          description = bank[value$index, 2]
+          
+        ),
+        result = list(
+          success = any(answer == ans[value$index,1]),
+          response = paste(getResponseText(value$index, answer), 
+                           as.character(Sys.time()))
+        )
+      )
+    )
     
+    # Store statement in locker and return status
+    status <- rlocker::store(session, interacted_statement)
+    
+    print(interacted_statement) # remove me
+    print(status) # remove me
+  })
+  
+  
+  getResponseText <- function(index, answer){
+    if(answer == 'A'){
+      key = 3
+    } else if(answer == 'B'){
+      key = 4
+    } else {
+      key = 5
+    }
+    return(bank[index, key])
+  }
+  
   observeEvent(input$submit,{
     if(length(index_list$list) == 1){
       updateButton(session, "nextq", disabled = TRUE)
@@ -687,7 +728,8 @@ shinyServer(function(input, output, session) {
         ),
         result = list(
           success = any(answer == ans[value$index,1]),
-          response = paste(getResponseText(value$index, answer))
+          response = paste(getResponseText(value$index, answer), 
+                           as.character(Sys.time()))
         )
       )
     )

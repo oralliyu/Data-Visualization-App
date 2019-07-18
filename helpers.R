@@ -87,8 +87,8 @@ getCurrentAddress <- function(session){
 }
 
 # Pulls corresponding answer values from question bank and returns its text
-getResponseText <- function(index, answer){
 
+getResponseText <- function(index, answer){
   if(answer == 'A'){
     key = 3
   } else if(answer == 'B'){
@@ -96,6 +96,5 @@ getResponseText <- function(index, answer){
   } else {
     key = 5
   }
-  
   return(bank[index, key])
 }
