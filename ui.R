@@ -270,7 +270,7 @@ body = dashboardBody(
                                             h2("Exercises"),
                                             uiOutput('progress'),
                                             wellPanel(style = "background-color: #b8f28c",
-                                                      uiOutput("question"),
+                                                      uiOutput("question")%>% withSpinner(color="#1E7B14"),
                                                       uiOutput("options"),
                                                       br(),
                                                       selectInput("answer", "pick an answer from below", c("","A", "B", "C")),
