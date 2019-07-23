@@ -673,8 +673,7 @@ shinyServer(function(input, output, session) {
         ),
         result = list(
           success = any(answer == ans[value$index,1]),
-          response = paste(getResponseText(value$index, answer), 
-                           as.character(Sys.time()))
+          response = paste(getResponseText(value$index, answer))
         )
       )
     )
